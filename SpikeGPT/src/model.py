@@ -20,7 +20,8 @@ except:
 
 logger = logging.getLogger(__name__)
 
-RWKV_HEAD_QK_DIM = 256
+import os
+RWKV_HEAD_QK_DIM = int(os.environ.get("RWKV_HEAD_QK_DIM", "256"))
 print(f'\nRWKV_HEAD_QK_DIM {RWKV_HEAD_QK_DIM}\n')
 
 
