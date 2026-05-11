@@ -20,7 +20,7 @@ except:
 
 logger = logging.getLogger(__name__)
 
-RWKV_HEAD_QK_DIM = 0
+RWKV_HEAD_QK_DIM = 256
 print(f'\nRWKV_HEAD_QK_DIM {RWKV_HEAD_QK_DIM}\n')
 
 
@@ -429,20 +429,15 @@ class GPT(nn.Module):
             k = self.head_k(x)[:, :T, :]
             c = (q @ k.transpose(-2, -1)) * (1.0 / RWKV_HEAD_QK_DIM)
             c = c.masked_fill(self.copy_mask[:T, :T] == 0, 0)
-
-            #             if '32' in os.environ['RWKV_FLOAT_MODE']:
-            #                 c = c @ F.one_hot(idx, num_classes=self.config.vocab_size)
-            #             elif os.environ['RWKV_FLOAT_MODE'] == 'fp16':
-            #                 c = c @ F.one_hot(idx, num_classes=self.config.vocab_size).half()
-            #             elif os.environ['RWKV_FLOAT_MODE'] == 'bf16':
-            #                 c = c @ F.one_hot(idx, num_classes=self.config.vocab_size).bfloat16()
-
-            x = self.head(x) + c
+            
+            x = self.head(x)
+            indices = idx.unsqueeze(1).expand(B, T, T)
+            x.scatter_add_(2, indices, c.to(x.dtype))
         else:
             x = self.head(x)
 
-        loss = None
         if targets is not None:
             loss = F.cross_entropy(x.view(-1, x.size(-1)), targets.to(x.device).view(-1))
-
-        return L2Wrap.apply(loss, x)
+            return L2Wrap.apply(loss, x)
+        
+        return x
