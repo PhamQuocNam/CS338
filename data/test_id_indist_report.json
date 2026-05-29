@@ -1,0 +1,12 @@
+{
+  "input": "data/test_ood_data.jsonl",
+  "output": "data/test_id_indist_data.jsonl",
+  "purpose": "Rewrite OOD multi-hyphen IDs into in-distribution LETTERS+NUM IDs for a separate evaluation set.",
+  "stats": {
+    "order_after_LETTERS+NUM": 2502,
+    "order_before_LETTERS-NUM": 2502,
+    "product_after_LETTERS+NUM": 1709,
+    "product_before_MIXED-HYPHEN": 1709,
+    "records": 5000
+  }
+}
