@@ -1,0 +1,51 @@
+\babel@toc {vietnamese}{}\relax 
+\contentsline {chapter}{TÓM TẮT}{1}{chapter*.2}%
+\contentsline {chapter}{\numberline {1}TỔNG QUAN}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Bối cảnh và lý do chọn đề tài}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Mục tiêu đồ án}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Phạm vi và đóng góp}{3}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Cấu trúc báo cáo}{3}{section.1.4}%
+\contentsline {chapter}{\numberline {2}CÁC CÔNG TRÌNH LIÊN QUAN}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Transformer và mô hình ngôn ngữ tự hồi quy}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}RWKV như một hướng thay thế attention}{4}{section.2.2}%
+\contentsline {section}{\numberline {2.3}SpikeGPT và mô hình ngôn ngữ dựa trên SNN}{5}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Tool calling và agentic chatbot}{5}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Vị trí của đồ án so với các công trình trước}{5}{section.2.5}%
+\contentsline {chapter}{\numberline {3}CƠ SỞ LÝ THUYẾT}{6}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Rào cản của Transformer đối với SNN}{6}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Spiking Neural Networks và LIF neuron}{7}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Kiến trúc SpikeGPT}{8}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Binary Embedding}{8}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Spiking RWKV}{8}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Spiking Receptance Feed-Forward Network}{9}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}Ưu điểm và giới hạn kỳ vọng}{9}{section.3.4}%
+\contentsline {chapter}{\numberline {4}BÀI TOÁN VÀ DỮ LIỆU}{10}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Bài toán chatbot agentic trong thương mại}{10}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Bộ công cụ}{11}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Xây dựng dữ liệu}{11}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Tiền xử lý và kiểm tra chất lượng}{12}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Định dạng ID và phân phối dữ liệu}{13}{section.4.5}%
+\contentsline {chapter}{\numberline {5}PHƯƠNG PHÁP THỰC NGHIỆM}{14}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Các mô hình được đánh giá}{14}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Nguồn cài đặt và các chỉnh sửa chính}{14}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Thiết lập huấn luyện}{15}{section.5.3}%
+\contentsline {section}{\numberline {5.4}HeadQK}{16}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Hàm mất mát}{16}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Các chỉ số đánh giá}{18}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Thiết kế ablation}{19}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Pipeline suy luận và đánh giá}{19}{section.5.8}%
+\contentsline {chapter}{\numberline {6}KẾT QUẢ VÀ PHÂN TÍCH}{21}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Kết quả tổng quan}{21}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Phân tích theo từng nhóm metric}{22}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Tác động của HeadQK}{22}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Ablation về hàm mất mát}{23}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Ablation về định dạng ID}{24}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Phân tích vì sao SpikeGPT yếu ở Args Exact Match}{24}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Các dạng lỗi thường gặp}{25}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Đánh giá định tính}{25}{section.6.8}%
+\contentsline {section}{\numberline {6.9}So sánh với bài báo gốc}{26}{section.6.9}%
+\contentsline {chapter}{\numberline {7}KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}{27}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Kết luận}{27}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Hạn chế}{27}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Hướng phát triển}{27}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Bài học rút ra}{28}{section.7.4}%

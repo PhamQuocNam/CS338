@@ -1,0 +1,1038 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+% =========================
+% Encoding, Language, Fonts
+% =========================
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{TeX Gyre Termes}}
+\usepackage[vietnamese]{babel}
+
+% =========================
+% Page Layout and Styling
+% =========================
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3.0cm,right=2.5cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.25}
+\newlength{\manualparindent}
+\setlength{\manualparindent}{1.2cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.08em}
+\newcommand{\manualindent}{\hspace*{\manualparindent}}
+\sloppy
+
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+\setlist{topsep=0.25em,itemsep=0.1em,parsep=0pt}
+\titlespacing*{\chapter}{0pt}{-0.4cm}{0.8cm}
+\titlespacing*{\section}{0pt}{0.7em}{0.35em}
+\titlespacing*{\subsection}{0pt}{0.5em}{0.25em}
+
+\graphicspath{{./}{../}}
+
+\definecolor{uitblue}{RGB}{0,65,120}
+\definecolor{lightgray}{RGB}{245,245,245}
+\definecolor{darkgray}{RGB}{60,60,60}
+
+\newcommand{\coverborder}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=0.8pt]
+      ([xshift=1.2cm,yshift=-1.2cm]current page.north west)
+      rectangle
+      ([xshift=-1.2cm,yshift=1.2cm]current page.south east);
+    \draw[line width=0.3pt]
+      ([xshift=1.35cm,yshift=-1.35cm]current page.north west)
+      rectangle
+      ([xshift=-1.35cm,yshift=1.35cm]current page.south east);
+  \end{tikzpicture}
+}
+
+\newcommand{\universitylogo}{%
+  \IfFileExists{uit.png}{%
+    \includegraphics[height=2.7cm]{uit.png}%
+  }{%
+    \begin{tikzpicture}
+      \draw[line width=0.6pt, color=uitblue] (0,0) rectangle (3.2,2.6);
+      \node[align=center, color=uitblue, font=\bfseries\small] at (1.6,1.3)
+      {LOGO\\UIT};
+    \end{tikzpicture}%
+  }%
+}
+
+\newcommand{\placeholderfigure}[2]{%
+  \begin{figure}[H]
+    \centering
+    \fbox{%
+      \begin{minipage}{0.88\textwidth}
+        \centering
+        \vspace{0.7cm}
+        \textit{#1}
+        \vspace{0.7cm}
+      \end{minipage}%
+    }
+    \caption{#2}
+  \end{figure}
+}
+
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  justification=centering
+}
+
+\lstdefinestyle{jsonstyle}{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{lightgray},
+  frame=single,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false
+}
+
+\renewcommand{\contentsname}{MỤC LỤC}
+\renewcommand{\chaptername}{Chương}
+\renewcommand{\bibname}{TÀI LIỆU THAM KHẢO}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+
+\newcommand{\projecttitle}{HỆ THỐNG CHATBOT AGENTIC TRONG QUẢN LÝ THƯƠNG MẠI DỰA TRÊN SPIKEGPT}
+
+\begin{document}
+
+% =========================
+% Cover Page
+% =========================
+\begin{titlepage}
+  \begingroup
+  \setstretch{1.0}
+  \setlength{\parskip}{0pt}
+  \coverborder
+  \centering
+  \vspace*{0.35cm}
+
+  {\bfseries\Large TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN}\\
+  {\bfseries\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH}\\
+  {\bfseries\large KHOA KHOA HỌC MÁY TÍNH}
+
+  \vspace{0.45cm}
+  \IfFileExists{uit.png}{\includegraphics[height=2.1cm]{uit.png}}{\universitylogo}
+
+  \vspace{0.6cm}
+
+  {\bfseries\Large BÁO CÁO ĐỒ ÁN CUỐI KỲ}\\[0.25cm]
+  {\bfseries\large MÔN HỌC: CS338.Q22 - NHẬN DẠNG}
+
+  \vspace{0.85cm}
+
+  \begin{minipage}{0.9\textwidth}
+    \centering
+    {\bfseries\large\color{uitblue} \projecttitle}
+  \end{minipage}
+
+  \vspace{0.85cm}
+
+  \small
+  \begin{tabular}{>{\bfseries}p{4.8cm}p{8.0cm}}
+    Giảng viên hướng dẫn: & Dương Việt Hằng, Trần Doãn Thuyên \\
+    Nhóm thực hiện: & Nhóm 5 \\
+    Bài báo tham chiếu: & SpikeGPT: A Generative Pre-trained Language Model with Spiking Neural Networks \\
+    Thời gian thực hiện: & 05/2026 \\
+  \end{tabular}
+
+  \vspace{0.65cm}
+
+  \begin{tabular}{clc}
+    \toprule
+    STT & Họ và tên & MSSV \\
+    \midrule
+    1 & Phạm Quốc Nam & 23520984 \\
+    2 & Nguyễn Khang Hy & 23520662 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.75cm}
+  {\bfseries TP. Hồ Chí Minh, tháng 05 năm 2026}
+  \endgroup
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+% =========================
+% Abstract
+% =========================
+\chapter*{TÓM TẮT}
+\addcontentsline{toc}{chapter}{TÓM TẮT}
+
+\manualindent%
+Đồ án này nghiên cứu khả năng ứng dụng SpikeGPT, một mô hình ngôn ngữ dựa trên mạng nơ-ron xung, cho bài toán chatbot agentic trong quản lý thương mại. Khác với các mô hình Transformer truyền thống, SpikeGPT được thiết kế theo hướng xử lý tuần tự, sử dụng nơ-ron Leaky Integrate-and-Fire, nhúng nhị phân, Spiking RWKV và Spiking Receptance Feed-Forward Network nhằm tiến gần hơn tới cơ chế tính toán thưa, tiết kiệm năng lượng của Spiking Neural Networks.
+
+\manualindent%
+Nhóm xây dựng một bộ dữ liệu tool calling tiếng Việt cho miền thương mại, trong đó chatbot phải đọc yêu cầu của người dùng, chọn đúng công cụ quản lý và sinh ra lời gọi công cụ dưới dạng JSON. Sáu công cụ được xét gồm kiểm tra tồn kho, tạo đơn hàng, tra cứu đơn hàng, cập nhật đơn hàng, xóa đơn hàng và phân tích doanh thu. Để đánh giá mô hình, nhóm sử dụng các chỉ số Valid JSON, Intent Accuracy, Args Exact Match, Precision, Recall và F1-score.
+
+\manualindent%
+Trên nền mô hình SpikeGPT-216M, nhóm thực nghiệm nhiều cấu hình: huấn luyện không thay đổi kiến trúc, huấn luyện từ đầu với HeadQK, fine-tuning với HeadQK, sửa dữ liệu, thử hàm mất mát có trọng số cho token cần copy và kiểm tra thêm ảnh hưởng của định dạng ID. Kết quả tốt nhất theo cân bằng tổng thể thuộc về SpikeGPT fine-tune với HeadQK ở epoch 220, đạt 99.80\% Valid JSON, 94.10\% Intent Accuracy và 13.94\% Args Exact Match. Tuy nhiên, so với GPT-2 Small và GPT-2 Medium, SpikeGPT vẫn yếu rõ ở khả năng copy chính xác tham số, đặc biệt khi metric yêu cầu khớp toàn bộ arguments. Kết quả cho thấy SpikeGPT có thể học cấu trúc tool calling và định tuyến công cụ khá tốt, nhưng cơ chế hồi quy và biểu diễn xung nhị phân vẫn là hạn chế lớn đối với bài toán exact copying.
+
+\manualindent%
+\textbf{Từ khóa:} SpikeGPT, Spiking Neural Networks, RWKV, Tool Calling, Agentic Chatbot, Fine-tuning, Exact Match.
+
+% =========================
+% Chapter 1
+% =========================
+\chapter{TỔNG QUAN}
+
+\section{Bối cảnh và lý do chọn đề tài}
+
+\manualindent%
+Các mô hình ngôn ngữ lớn hiện nay chủ yếu dựa trên kiến trúc Transformer. Nhờ cơ chế self-attention, Transformer có khả năng mô hình hóa quan hệ giữa các token rất mạnh và đạt hiệu quả cao trong nhiều tác vụ sinh ngôn ngữ, hỏi đáp, lập trình và hội thoại. Tuy nhiên, cơ chế này có chi phí tính toán lớn, đặc biệt do self-attention phải so sánh token với nhiều token khác trong chuỗi. Khi độ dài chuỗi tăng, chi phí bộ nhớ và tính toán tăng nhanh, gây khó khăn cho triển khai trên thiết bị biên hoặc các hệ thống có ràng buộc năng lượng.
+
+\manualindent%
+Spiking Neural Networks (SNN) là một hướng tiếp cận khác, lấy cảm hứng từ cách nơ-ron sinh học truyền tín hiệu bằng xung rời rạc. Thay vì truyền các giá trị số thực liên tục ở mọi bước, SNN chỉ kích hoạt khi điện thế màng vượt ngưỡng, từ đó tạo ra tính thưa và tiềm năng tiết kiệm năng lượng trên phần cứng neuromorphic. Tuy vậy, việc kết hợp SNN với mô hình ngôn ngữ không đơn giản. Transformer yêu cầu softmax, phép nhân ma trận lớn và quan sát toàn cục chuỗi đầu vào; trong khi SNN vận hành tự nhiên theo từng bước thời gian với tín hiệu nhị phân.
+
+\manualindent%
+Bài báo SpikeGPT đề xuất một hướng dung hòa: sử dụng kiến trúc RWKV thay cho self-attention toàn phần, sau đó xung hóa các thành phần chính để xây dựng mô hình ngôn ngữ sinh dựa trên SNN. Từ đó, nhóm chọn SpikeGPT làm nền tảng nghiên cứu cho bài toán chatbot agentic trong quản lý thương mại. Đây là bài toán phù hợp vì mô hình không chỉ cần sinh văn bản, mà còn phải hiểu ý định, chọn đúng công cụ và copy chính xác các tham số như mã đơn hàng, mã sản phẩm, số lượng, địa chỉ hoặc ngày tháng.
+
+\section{Mục tiêu đồ án}
+
+Đồ án đặt ra các mục tiêu chính sau:
+
+\begin{enumerate}[label=\arabic*.]
+  \item Tìm hiểu bài báo SpikeGPT và các thành phần cốt lõi: LIF neuron, surrogate gradient, Binary Embedding, Spiking RWKV và SRFFN.
+  \item Xây dựng bài toán chatbot agentic tiếng Việt trong miền quản lý thương mại dưới dạng tool calling.
+  \item Tạo và tiền xử lý bộ dữ liệu huấn luyện, kiểm tra tính nhất quán giữa câu hỏi người dùng và arguments trong lời gọi công cụ.
+  \item Fine-tune SpikeGPT-216M và so sánh với các mô hình Transformer baseline như GPT-2 Small và GPT-2 Medium.
+  \item Thử một số cải tiến như HeadQK, sửa dữ liệu, copy-aware loss và kiểm tra ảnh hưởng của định dạng ID.
+  \item Phân tích nguyên nhân SpikeGPT vẫn kém Transformer ở Args Exact Match dù có thể đạt kết quả tốt ở Valid JSON và Intent Accuracy.
+\end{enumerate}
+
+\section{Phạm vi và đóng góp}
+
+\manualindent%
+Phạm vi của đồ án không nhằm xây dựng một chatbot thương mại hoàn chỉnh để triển khai thực tế, mà tập trung vào năng lực cốt lõi của mô hình ngôn ngữ trong bối cảnh agentic: từ câu lệnh tự nhiên, mô hình phải sinh ra một lời gọi công cụ có cấu trúc. Nhóm không đánh giá chất lượng phản hồi hội thoại sau khi tool trả kết quả, mà tập trung vào ba tầng: cú pháp JSON, chọn đúng tool và sinh đúng arguments.
+
+Đóng góp chính của nhóm gồm:
+
+\begin{itemize}
+  \item Tái hiện và giải thích kiến trúc SpikeGPT trong ngữ cảnh SNN cho mô hình ngôn ngữ.
+  \item Xây dựng dataset tool calling tiếng Việt cho quản lý thương mại.
+  \item Thử nghiệm HeadQK trên SpikeGPT để hỗ trợ copy token từ ngữ cảnh.
+  \item Xây dựng pipeline đánh giá với các metric Valid JSON, Intent Accuracy, Args Exact Match và F1-score.
+  \item Thực hiện ablation study về dữ liệu, kiến trúc, hàm mất mát và định dạng ID.
+  \item Phân tích giới hạn của SpikeGPT khi so sánh với Transformer trên bài toán exact argument copying.
+\end{itemize}
+
+\section{Cấu trúc báo cáo}
+
+\manualindent%
+Phần còn lại của báo cáo được tổ chức theo hướng bám sát rubric của đồ án cuối kỳ. Chương 2 trình bày các công trình liên quan, gồm Transformer, RWKV, SpikeGPT, SNN cho mô hình ngôn ngữ và tool calling. Chương 3 trình bày cơ sở lý thuyết cần thiết để hiểu SpikeGPT. Chương 4 mô tả dữ liệu và bài toán. Chương 5 trình bày phương pháp, mô hình, cải tiến và pipeline đánh giá. Chương 6 trình bày thực nghiệm, kết quả, ablation study và phân tích lỗi. Chương 7 kết luận, nêu hạn chế và hướng phát triển.
+
+% =========================
+% Chapter 2
+% =========================
+\chapter{CÁC CÔNG TRÌNH LIÊN QUAN}
+
+\section{Transformer và mô hình ngôn ngữ tự hồi quy}
+
+\manualindent%
+Transformer là kiến trúc nền tảng của phần lớn mô hình ngôn ngữ hiện đại. Điểm cốt lõi của Transformer là cơ chế self-attention, cho phép mỗi token truy cập trực tiếp các token khác trong chuỗi \cite{vaswani}. Với mô hình ngôn ngữ tự hồi quy như GPT-2, self-attention được kết hợp với causal mask để dự đoán token kế tiếp mà không nhìn thấy tương lai \cite{gpt2}. Lợi thế quan trọng của hướng này là khả năng liên kết thông tin ở khoảng cách xa, đặc biệt hữu ích khi mô hình cần copy một chuỗi xuất hiện trong prompt sang output.
+
+\manualindent%
+Trong bài toán tool calling của nhóm, Transformer là baseline mạnh vì output thường phải lặp lại chính xác các thực thể trong input: mã đơn hàng, mã sản phẩm, số lượng, địa chỉ hoặc ngày tháng. Khi sinh token trong phần \texttt{arguments}, mô hình Transformer có thể dùng attention để đặt trọng số cao lên vị trí chứa thực thể gốc. Đây là lý do nhóm so sánh SpikeGPT với GPT-2 Small và GPT-2 Medium: không chỉ để so sánh điểm số, mà còn để kiểm tra liệu kiến trúc SNN/RWKV có thể thay thế attention đầy đủ trong một tác vụ cần exact copying hay không.
+
+\section{RWKV như một hướng thay thế attention}
+
+\manualindent%
+RWKV được đề xuất như một kiến trúc lai giữa RNN và Transformer \cite{rwkv}. Nó giữ tinh thần key-value và weighted aggregation của attention, nhưng triển khai theo dạng hồi quy tuyến tính theo thời gian. Thay vì lưu và xử lý toàn bộ ma trận attention kích thước \(T\times T\), RWKV duy trì các trạng thái tích lũy và cập nhật chúng ở từng token. Cách làm này giúp giảm chi phí theo chiều dài chuỗi và tự nhiên phù hợp với sinh ngôn ngữ tự hồi quy.
+
+\manualindent%
+Tuy nhiên, chính đặc điểm hồi quy cũng tạo ra khác biệt quan trọng. Transformer có thể truy cập trực tiếp token quá khứ qua attention score, còn RWKV phải nén lịch sử vào trạng thái. Nếu tác vụ yêu cầu hiểu ý tổng quát, trạng thái nén có thể đủ. Nếu tác vụ yêu cầu copy nguyên văn một chuỗi ID, việc nén có thể làm mất chi tiết. Báo cáo của nhóm khai thác đúng điểm này khi đưa SpikeGPT vào bài toán tool calling.
+
+\section{SpikeGPT và mô hình ngôn ngữ dựa trên SNN}
+
+\manualindent%
+SpikeGPT là công trình trung tâm của đồ án. Bài báo \textit{SpikeGPT: A Generative Pre-trained Language Model with Spiking Neural Networks} cho thấy mô hình ngôn ngữ sinh có thể được xây dựng trên nền SNN bằng cách kết hợp RWKV, Binary Embedding, LIF neuron và surrogate gradient \cite{spikegpt}. So với nhiều SNN trước đó chủ yếu tập trung vào thị giác máy tính hoặc phân loại văn bản, SpikeGPT trực tiếp nhắm đến sinh ngôn ngữ tự hồi quy, một bài toán khó hơn vì mô hình phải sinh chuỗi token dài và giữ ngữ cảnh.
+
+\manualindent%
+Bài báo gốc đánh giá SpikeGPT trên các tác vụ NLG/NLU như Enwik8, WikiText và một số dataset phân loại văn bản. Kết quả cho thấy SpikeGPT có tiềm năng mở rộng và có thể đạt hiệu quả cạnh tranh trong một số thiết lập, đồng thời giữ lợi thế lý thuyết về tính thưa và tiêu thụ năng lượng. Tuy nhiên, bài báo gốc chưa tập trung vào tool calling, JSON generation hoặc exact argument copying. Đây là khoảng trống mà đồ án của nhóm khảo sát.
+
+\section{Tool calling và agentic chatbot}
+
+\manualindent%
+Tool calling là một dạng bài toán trong đó mô hình ngôn ngữ không chỉ trả lời bằng văn bản mà phải sinh ra lời gọi hàm có cấu trúc. Một lời gọi tool thường gồm tên hàm và dictionary tham số. Trong hệ thống agentic, bước này đóng vai trò cầu nối giữa ngôn ngữ tự nhiên và hành động thực thi trên hệ thống bên ngoài. Sai tên tool có thể dẫn đến sai hành động; sai argument có thể dẫn đến truy vấn sai đơn hàng, cập nhật sai số lượng hoặc giao hàng sai địa chỉ.
+
+\manualindent%
+So với phân loại intent truyền thống, tool calling khó hơn vì mô hình phải đồng thời giải hai bài toán: phân loại tool và sinh tham số. Bài toán thứ hai gần với sequence transduction có ràng buộc, trong đó một phần output phải được copy chính xác từ input. Vì vậy, nhóm sử dụng nhiều metric tách biệt: Valid JSON để đo cú pháp, Intent Accuracy để đo chọn tool, Args Exact Match để đo tham số, và F1-score để phân tích phân loại tool.
+
+\section{Vị trí của đồ án so với các công trình trước}
+
+\manualindent%
+Đồ án của nhóm khác bài báo SpikeGPT gốc ở ba điểm. Thứ nhất, thay vì đánh giá mô hình trên language modeling tổng quát, nhóm đưa SpikeGPT vào tác vụ agentic có cấu trúc. Thứ hai, thay vì chỉ tái hiện kiến trúc, nhóm thử cải tiến HeadQK và copy-aware loss để xử lý điểm yếu exact copying. Thứ ba, nhóm so sánh trực tiếp với GPT-2 để phân tích khoảng cách giữa SNN/RWKV và Transformer trên một bài toán có yêu cầu copy nghiêm ngặt.
+
+\manualindent%
+Do đó, đóng góp của đồ án không nằm ở việc đề xuất một kiến trúc hoàn toàn mới, mà ở việc kiểm tra một kiến trúc SNN ngôn ngữ mới trong một bối cảnh ứng dụng khó hơn, đồng thời phân tích rõ vì sao mô hình có thể làm tốt intent nhưng vẫn yếu ở arguments.
+
+% =========================
+% Chapter 3
+% =========================
+\chapter{CƠ SỞ LÝ THUYẾT}
+
+\section{Rào cản của Transformer đối với SNN}
+
+\manualindent%
+Transformer dựa trên self-attention, trong đó mỗi token có thể truy cập thông tin từ các token khác trong chuỗi. Với mô hình sinh ngôn ngữ, attention thường kết hợp causal mask để tránh rò rỉ thông tin tương lai. Cơ chế này rất hiệu quả trong việc copy, đối chiếu và liên kết thông tin xa, nhưng lại không phù hợp tự nhiên với SNN vì ba lý do.
+
+\manualindent%
+Thứ nhất, self-attention xử lý toàn cục trên chuỗi, trong khi SNN hoạt động theo sự kiện và theo thời gian. Thứ hai, softmax cần phép tính số thực như hàm mũ và phép chia, không tương thích với mục tiêu tính toán nhị phân thưa của SNN. Thứ ba, attention có chi phí lớn theo độ dài chuỗi, khiến triển khai trên phần cứng tiết kiệm năng lượng trở nên khó khăn. Vì vậy, để xây dựng mô hình ngôn ngữ dựa trên SNN, cần một kiến trúc thay thế có tính tuần tự và chi phí tuyến tính hơn.
+
+\manualindent%
+Về độ phức tạp, self-attention chuẩn với chuỗi dài \(T\) và chiều ẩn \(d\) cần tính ma trận tương quan giữa mọi cặp vị trí:
+
+\[
+\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d}}\right)V
+\]
+
+\manualindent%
+Ma trận \(QK^\top\) có kích thước \(T \times T\), nên chi phí theo chiều dài chuỗi thường được mô tả là \(O(T^2d)\). Trong khi đó, hướng RWKV/SRWKV cập nhật trạng thái theo từng bước thời gian, do đó có thể đạt chi phí tuyến tính \(O(Td)\) theo chiều dài chuỗi. Đây là lý do SpikeGPT chọn RWKV làm xương sống thay vì đưa Transformer trực tiếp vào SNN.
+
+\placeholderfigure{Chèn hình so sánh self-attention toàn cục của Transformer và xử lý tuần tự của RWKV/SNN.}{So sánh cơ chế xử lý chuỗi của Transformer và SpikeGPT}
+
+\section{Spiking Neural Networks và LIF neuron}
+
+\manualindent%
+Spiking Neural Networks là thế hệ mạng nơ-ron sử dụng xung rời rạc để truyền thông tin. Một nơ-ron không phát tín hiệu liên tục ở mọi thời điểm, mà tích lũy điện thế màng theo thời gian. Khi điện thế vượt ngưỡng, nơ-ron phát xung và trạng thái được reset. Mô hình Leaky Integrate-and-Fire (LIF) thường được dùng để mô tả quá trình này.
+
+\manualindent%
+Một dạng rời rạc đơn giản của LIF có thể viết như sau:
+
+\[
+u_t = \lambda u_{t-1} + x_t - v_{\mathrm{th}}s_{t-1}
+\]
+
+\[
+s_t = H(u_t - v_{\mathrm{th}})
+\]
+
+\manualindent%
+Trong đó \(u_t\) là điện thế màng tại thời điểm \(t\), \(\lambda\) là hệ số rò rỉ, \(x_t\) là tín hiệu đầu vào, \(v_{\mathrm{th}}\) là ngưỡng phát xung, \(s_t\) là xung đầu ra và \(H(\cdot)\) là hàm Heaviside. Nếu điện thế vượt ngưỡng, nơ-ron phát ra xung nhị phân. Nếu không, đầu ra bằng 0.
+
+\manualindent%
+Khó khăn chính của LIF là hàm Heaviside không khả vi. Trong huấn luyện bằng lan truyền ngược, đạo hàm của hàm bước gần như bằng 0 ở hầu hết mọi nơi, làm gradient không thể truyền hiệu quả. SpikeGPT giải quyết bằng surrogate gradient: trong forward vẫn dùng xung nhị phân, nhưng trong backward thay đạo hàm của Heaviside bằng một hàm xấp xỉ trơn, chẳng hạn arctangent surrogate.
+
+\manualindent%
+Có thể hiểu quá trình này như một thủ thuật tách biệt giữa lan truyền xuôi và lan truyền ngược. Ở forward, mô hình vẫn giữ tính chất xung:
+
+\[
+s_t = H(u_t - v_{\mathrm{th}})
+\]
+
+\manualindent%
+Nhưng khi tính gradient, đạo hàm không dùng trực tiếp \(H'(x)\), mà thay bằng một hàm surrogate \(\sigma'(x)\):
+
+\[
+\frac{\partial s_t}{\partial u_t}
+\approx
+\sigma'(u_t - v_{\mathrm{th}})
+\]
+
+\manualindent%
+Nhờ vậy, mạng vẫn có thể được huấn luyện bằng backpropagation trong khi đầu ra trung gian vẫn là spike rời rạc. Đây là điểm then chốt giúp SNN có thể mở rộng sang các tác vụ học sâu phức tạp như mô hình ngôn ngữ.
+
+\placeholderfigure{Chèn hình minh họa điện thế màng tích lũy, vượt ngưỡng, phát xung và reset của LIF neuron.}{Động học của nơ-ron LIF}
+
+\section{Kiến trúc SpikeGPT}
+
+\manualindent%
+SpikeGPT là mô hình ngôn ngữ sinh kết hợp giữa đặc tính hồi quy của RWKV và cơ chế nơ-ron xung của SNN. Thay vì sử dụng self-attention như Transformer, SpikeGPT dùng Spiking RWKV để xử lý thông tin theo từng bước thời gian. Điều này giúp mô hình phù hợp hơn với cơ chế tuần tự của SNN và có độ phức tạp tuyến tính theo chiều dài chuỗi.
+
+\subsection{Binary Embedding}
+
+\manualindent%
+Ở các mô hình ngôn ngữ truyền thống, token ID được ánh xạ sang vector embedding số thực. Với SpikeGPT, để phù hợp với SNN, embedding được đưa qua cơ chế xung hóa để tạo biểu diễn nhị phân. Trong forward pass, hàm Heaviside ép đầu ra thành xung 0/1. Trong backward pass, surrogate gradient cho phép cập nhật trọng số embedding liên tục. Nhờ vậy, mô hình vẫn có thể học bằng gradient descent nhưng duy trì tính chất spiking khi lan truyền xuôi.
+
+\subsection{Spiking RWKV}
+
+\manualindent%
+RWKV có thể được xem như một kiến trúc lai giữa Transformer và RNN. Nó giữ ý tưởng key-value và cơ chế trọng số theo thời gian, nhưng xử lý tuần tự thay vì tính attention toàn cục. Tại mỗi bước thời gian, mô hình tính các thành phần receptance, key và value, đồng thời duy trì trạng thái ẩn tích lũy từ quá khứ. Cơ chế decay giúp mô hình quyết định thông tin cũ nên được giữ lại hay suy giảm.
+
+\manualindent%
+Trong SpikeGPT, RWKV được chuyển thành Spiking RWKV. Dữ liệu được xử lý theo từng token \(X[t]\), phù hợp với SNN. Thay vì tạo ma trận attention lớn, SRWKV sử dụng các phép toán theo phần tử và trạng thái hồi quy. Điều này giảm chi phí tính toán, đồng thời tránh nhu cầu dùng causal mask như Transformer vì bản chất tuần tự đã đảm bảo mô hình không nhìn thấy tương lai.
+
+\manualindent%
+Một cách mô tả đơn giản hóa của RWKV tại thời điểm \(t\) là:
+
+\[
+r_t = \sigma(W_r x_t), \qquad k_t = W_k x_t, \qquad v_t = W_v x_t
+\]
+
+\[
+a_t = e^{-w}\odot a_{t-1} + e^{k_t}\odot v_t
+\]
+
+\[
+b_t = e^{-w}\odot b_{t-1} + e^{k_t}
+\]
+
+\[
+o_t = r_t \odot \frac{a_t}{b_t}
+\]
+
+\manualindent%
+Trong đó \(r_t\) đóng vai trò cổng receptance, \(k_t\) và \(v_t\) lần lượt tương tự key và value, \(a_t,b_t\) là hai trạng thái tích lũy quá khứ, \(w\) là tham số decay học được, và \(\odot\) là phép nhân từng phần tử. Công thức này cho thấy RWKV không cần lưu toàn bộ ma trận attention \(T\times T\), mà chỉ cần cập nhật trạng thái theo thời gian. Khi đưa vào SpikeGPT, các tín hiệu này tiếp tục được xử lý qua cơ chế spiking để phù hợp hơn với SNN.
+
+\placeholderfigure{Chèn sơ đồ một block SpikeGPT gồm Binary Embedding, SRWKV, SRFFN, residual connection và readout layer.}{Kiến trúc tổng quát của một block SpikeGPT}
+
+\subsection{Spiking Receptance Feed-Forward Network}
+
+\manualindent%
+SRFFN là phiên bản xung hóa của khối feed-forward có cơ chế gating. Một nhánh tạo cổng điều tiết lượng thông tin được phép đi qua, nhánh còn lại xử lý nội dung chính. Đầu ra tiếp tục được đưa qua nơ-ron LIF để tạo tính thưa. Theo bài báo SpikeGPT, SRFFN giữ vai trò quan trọng vì các lớp feed-forward trong mô hình ngôn ngữ thường chứa nhiều thông tin ngữ nghĩa và tri thức nội tại.
+
+\manualindent%
+Dạng khái quát của một khối feed-forward có gating có thể viết:
+
+\[
+g_t = \sigma(W_g x_t), \qquad h_t = \phi(W_h x_t)
+\]
+
+\[
+y_t = \mathrm{LIF}(g_t \odot h_t)
+\]
+
+\manualindent%
+Trong đó \(g_t\) là cổng kiểm soát lượng thông tin đi qua, \(h_t\) là nhánh xử lý nội dung và \(\phi\) là hàm kích hoạt phi tuyến. Việc đưa LIF vào sau phép trộn kênh giúp đầu ra trở thành xung thưa, nhưng đồng thời cũng khiến thông tin phải đi qua một bước lượng tử hóa mạnh hơn so với feed-forward số thực của Transformer.
+
+\section{Ưu điểm và giới hạn kỳ vọng}
+
+\manualindent%
+SpikeGPT hướng tới ba ưu điểm chính: xử lý chuỗi với chi phí tuyến tính, tương thích hơn với phần cứng neuromorphic và giảm năng lượng lý thuyết nhờ spike thưa. Tuy nhiên, chính các đặc điểm này cũng tạo ra giới hạn. Khi thông tin được nén qua trạng thái hồi quy và xung nhị phân, mô hình có thể mất chi tiết token-level, đặc biệt với các tác vụ yêu cầu copy chính xác từng ký tự như mã đơn hàng hoặc địa chỉ. Đây là giả thuyết quan trọng được kiểm chứng trong phần thực nghiệm của nhóm.
+
+% =========================
+% Chapter 3
+% =========================
+\chapter{BÀI TOÁN VÀ DỮ LIỆU}
+
+\section{Bài toán chatbot agentic trong thương mại}
+
+\manualindent%
+Trong đồ án, chatbot không chỉ trả lời bằng ngôn ngữ tự nhiên mà phải đóng vai trò agent. Khi nhận yêu cầu từ người quản lý, agent cần xác định tác vụ, trích xuất tham số và sinh ra lời gọi công cụ đúng định dạng. Lời gọi công cụ được đặt trong cặp thẻ đặc biệt:
+
+\begin{lstlisting}[style=jsonstyle]
+<tool_call>
+{"name": "ten_tool", "arguments": {...}}
+</tool_call>
+\end{lstlisting}
+
+\manualindent%
+Bài toán này có tính thực tế cao vì nhiều hệ thống thương mại hiện đại cần agent tự động tương tác với API: kiểm kho, tạo đơn, cập nhật đơn, xóa đơn hoặc tổng hợp doanh thu. Đối với mô hình ngôn ngữ, đây là bài toán khó hơn sinh câu trả lời tự do vì output phải đúng cả cú pháp lẫn nội dung tham số.
+
+\manualindent%
+Về mặt hình thức, mỗi mẫu dữ liệu có thể xem là một cặp \((x,z)\), trong đó \(x\) là câu yêu cầu tiếng Việt của người dùng, còn \(z\) là tool call chuẩn:
+
+\[
+z = (n, A)
+\]
+
+\manualindent%
+Ở đây \(n \in \mathcal{N}\) là tên tool thuộc tập sáu tool đã định nghĩa, còn \(A=\{(k_i,v_i)\}_{i=1}^{m}\) là tập arguments. Mục tiêu của mô hình là sinh chuỗi token biểu diễn \(z\) sao cho:
+
+\[
+\hat{z} = \arg\max_z P_\theta(z \mid x)
+\]
+
+\manualindent%
+Khác với phân loại intent đơn thuần, bài toán này gồm hai tầng phụ thuộc nhau. Tầng thứ nhất là chọn đúng \(n\). Tầng thứ hai là sinh đúng từng khóa và từng giá trị trong \(A\). Nếu tầng thứ nhất đúng nhưng tầng thứ hai sai, hệ thống vẫn có thể gọi API sai và gây lỗi nghiệp vụ.
+
+\placeholderfigure{Chèn hình pipeline: User request -> SpikeGPT -> JSON tool call -> API thương mại.}{Pipeline bài toán chatbot agentic trong quản lý thương mại}
+
+\section{Bộ công cụ}
+
+Nhóm định nghĩa sáu công cụ chính:
+
+\begin{table}[H]
+\centering
+\caption{Các tool trong bài toán agentic chatbot}
+\begin{tabularx}{\textwidth}{p{3.4cm}X}
+\toprule
+\textbf{Tool} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{check\_inventory} & Kiểm tra tồn kho của một sản phẩm dựa trên \texttt{product\_id}. \\
+\texttt{create\_order} & Tạo đơn hàng mới với sản phẩm, số lượng và địa chỉ giao hàng. \\
+\texttt{get\_order} & Tra cứu thông tin đơn hàng theo \texttt{order\_id}. \\
+\texttt{update\_order} & Cập nhật đơn hàng, thường gồm mã đơn, số lượng hoặc địa chỉ mới. \\
+\texttt{delete\_order} & Hủy hoặc xóa đơn hàng theo \texttt{order\_id}. \\
+\texttt{revenue\_analysis} & Phân tích doanh thu theo khoảng thời gian. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Schema arguments của từng tool}
+\small
+\begin{tabularx}{\textwidth}{p{3.3cm}X}
+\toprule
+\textbf{Tool} & \textbf{Arguments chính} \\
+\midrule
+\texttt{check\_inventory} & \texttt{product\_id}: mã sản phẩm cần kiểm tra tồn kho. \\
+\texttt{create\_order} & \texttt{product\_id}, \texttt{quantity}, \texttt{address}: sản phẩm, số lượng và địa chỉ giao hàng. \\
+\texttt{get\_order} & \texttt{order\_id}: mã đơn hàng cần tra cứu. \\
+\texttt{update\_order} & \texttt{order\_id} và có thể thêm \texttt{quantity}, \texttt{address} tùy yêu cầu cập nhật. \\
+\texttt{delete\_order} & \texttt{order\_id}: mã đơn hàng cần hủy. \\
+\texttt{revenue\_analysis} & \texttt{start\_date}, \texttt{end\_date}: khoảng thời gian phân tích doanh thu. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Xây dựng dữ liệu}
+
+\manualindent%
+Vì chưa có sẵn bộ dữ liệu tool calling tiếng Việt chuyên cho miền thương mại, nhóm tự xây dựng dữ liệu. Quy trình gồm: định nghĩa schema tool, viết các mẫu hội thoại, sử dụng mô hình mạnh như Gemini hoặc GPT để sinh thêm câu lệnh tự nhiên, sau đó parse lại thành định dạng JSONL phù hợp với SpikeGPT. Mỗi mẫu gồm phần system prompt, câu người dùng và lời gọi tool của assistant.
+
+\manualindent%
+Một ví dụ rút gọn:
+
+\begin{lstlisting}[style=jsonstyle]
+<|im_start|>user
+Kiểm tra tồn kho sản phẩm Airpods5338 giúp tôi.
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "check_inventory",
+ "arguments": {"product_id": "Airpods5338"}}
+</tool_call>
+<|im_end|>
+\end{lstlisting}
+
+\section{Tiền xử lý và kiểm tra chất lượng}
+
+\manualindent%
+Sau giai đoạn sinh dữ liệu ban đầu, nhóm phát hiện nhiều mẫu có vấn đề: tham số trong \texttt{arguments} không xuất hiện đúng trong câu người dùng, giá trị \texttt{None}/\texttt{null}, hoặc khác biệt nhỏ về dấu gạch nối. Điều này đặc biệt nguy hiểm với bài toán copy, vì mô hình sẽ học từ tín hiệu sai: câu hỏi chứa một giá trị nhưng nhãn yêu cầu sinh giá trị khác.
+
+\manualindent%
+Nhóm viết script kiểm tra và sửa dữ liệu theo hướng bảo toàn copy signal. Các mẫu có thể sửa được sẽ thay biến thể trong câu user thành đúng giá trị trong nhãn; các mẫu không thể sửa chắc chắn bị loại bỏ. Sau xử lý, bộ train copyfix còn 50,249 mẫu và bộ validation copyfix còn 6,730 mẫu, với mục tiêu không còn argument literal bị thiếu trong câu người dùng.
+
+\manualindent%
+Quy tắc kiểm tra chất lượng quan trọng nhất là: với những argument cần copy, giá trị trong nhãn phải xuất hiện nguyên văn trong câu người dùng. Nếu ký hiệu câu người dùng là \(x\) và một argument là \((k,v)\), điều kiện mong muốn là:
+
+\[
+v \in x, \qquad k \in \{\texttt{order\_id}, \texttt{product\_id}, \texttt{quantity}, \texttt{address}, \texttt{start\_date}, \texttt{end\_date}\}
+\]
+
+\manualindent%
+Nếu điều kiện này không đúng, mẫu đó tạo ra tín hiệu học mâu thuẫn: mô hình được yêu cầu sinh một giá trị không có trong input. Với bài toán copy, đây là lỗi nghiêm trọng hơn lỗi diễn đạt tự nhiên, vì nó trực tiếp làm giảm khả năng học ánh xạ từ input sang arguments.
+
+\begin{table}[H]
+\centering
+\caption{Kết quả làm sạch dữ liệu copyfix}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Tập dữ liệu} & \textbf{Số mẫu sau xử lý} & \textbf{Mục tiêu kiểm tra} \\
+\midrule
+Train copyfix & 50,249 & Không còn argument literal bị thiếu \\
+Validation copyfix & 6,730 & Không còn argument literal bị thiếu \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Định dạng ID và phân phối dữ liệu}
+
+\manualindent%
+Trong quá trình phân tích lỗi, nhóm kiểm tra thêm phân phối định dạng ID. Dữ liệu train sau copyfix có \texttt{order\_id} chủ yếu ở dạng chữ nối số, ví dụ \texttt{DH9200}, chiếm khoảng 81.2\%. Với \texttt{product\_id}, dạng chữ nối số chiếm khoảng 75.3\%. Trong khi đó, một bộ test OOD ban đầu sử dụng 100\% \texttt{order\_id} dạng chữ-gạch-số và 100\% \texttt{product\_id} dạng nhiều segment có gạch nối như \texttt{MAC-59-PRO}. Nhóm tạo thêm một bộ test in-distribution bằng cách chuẩn hóa ID về dạng gần train hơn. Kết quả không cải thiện đáng kể, cho thấy định dạng ID không phải nguyên nhân chính làm Args Exact Match thấp; điểm nghẽn nằm sâu hơn ở năng lực exact copying của mô hình.
+
+% =========================
+% Chapter 4
+% =========================
+\chapter{PHƯƠNG PHÁP THỰC NGHIỆM}
+
+\section{Các mô hình được đánh giá}
+
+\manualindent%
+Nhóm đánh giá hai nhóm mô hình. Nhóm thứ nhất là SpikeGPT-216M, gồm các biến thể không dùng HeadQK, huấn luyện từ đầu với HeadQK và fine-tuning từ checkpoint pretrained. Nhóm thứ hai là các baseline Transformer gồm GPT-2 Small và GPT-2 Medium sau fine-tuning trên cùng bài toán.
+
+\manualindent%
+Việc so sánh với GPT-2 có ý nghĩa vì GPT-2 là Transformer autoregressive có cơ chế self-attention đầy đủ. Nếu GPT-2 vượt trội ở Args Exact Match, điều này cho thấy attention vẫn là lợi thế lớn trong bài toán copy tham số từ input sang output.
+
+\section{Nguồn cài đặt và các chỉnh sửa chính}
+
+\manualindent%
+Phần cài đặt SpikeGPT của nhóm dựa trên mã nguồn mở của tác giả bài báo SpikeGPT \cite{spikegpt-code}. Nhóm sử dụng lại các thành phần nền tảng như kiến trúc GPT/RWKV, tokenizer, CUDA kernel cho WKV và pipeline huấn luyện. Trên nền đó, nhóm chỉnh sửa các file huấn luyện và mô hình để phù hợp với bài toán tool calling tiếng Việt.
+
+\manualindent%
+Các chỉnh sửa quan trọng gồm:
+
+\begin{itemize}
+  \item Thay dữ liệu language modeling tổng quát bằng dữ liệu hội thoại tool calling theo định dạng chat template.
+  \item Bật và cấu hình HeadQK với kích thước 256 chiều để hỗ trợ copy token.
+  \item Chỉnh đường dẫn dữ liệu train/validation sang bộ copyfix đã làm sạch.
+  \item Thêm copy-aware loss trong \texttt{model.py} để tăng trọng số cho token từng xuất hiện trong ngữ cảnh.
+  \item Xây dựng notebook đánh giá riêng để parse output, kiểm tra JSON, so sánh intent và so sánh arguments.
+\end{itemize}
+
+\manualindent%
+Việc nêu rõ nguồn cài đặt là cần thiết vì đồ án không viết lại toàn bộ SpikeGPT từ đầu. Phần đóng góp của nhóm nằm ở việc tái sử dụng có kiểm soát một implementation nghiên cứu, đưa nó sang miền dữ liệu mới, thêm cải tiến phù hợp với bài toán và đánh giá bằng benchmark riêng.
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình chính của các nhóm mô hình}
+\small
+\begin{tabularx}{\textwidth}{p{3.4cm}p{3.0cm}X}
+\toprule
+\textbf{Mô hình} & \textbf{Quy mô} & \textbf{Vai trò trong thực nghiệm} \\
+\midrule
+SpikeGPT & 216M tham số & Mô hình SNN/RWKV chính, kiểm tra khả năng tool calling trên kiến trúc spiking. \\
+SpikeGPT + HeadQK & 216M + head phụ & Biến thể cải tiến để tăng khả năng đối chiếu và copy token từ ngữ cảnh. \\
+GPT-2 Small & 124M tham số & Baseline Transformer nhỏ, dùng để so sánh ảnh hưởng của self-attention. \\
+GPT-2 Medium & 355M tham số & Baseline Transformer lớn hơn, kiểm tra trần hiệu năng của hướng Transformer trong cùng bài toán. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Thiết lập huấn luyện}
+
+\manualindent%
+Với SpikeGPT, nhóm sử dụng cấu hình 216M tham số gồm 18 layer, kích thước embedding 768 và context length 1024. Mô hình được huấn luyện theo Causal Language Modeling, tức tại mỗi vị trí mô hình dự đoán token kế tiếp. Batch size thực nghiệm bị giới hạn bởi tài nguyên GPU, nên quá trình huấn luyện cần nhiều epoch để hội tụ. Các thí nghiệm dài nhất của nhóm kéo dài hàng trăm epoch và tiêu tốn hàng chục giờ cho mỗi cấu hình.
+
+\begin{table}[H]
+\centering
+\caption{Một số thiết lập huấn luyện chính}
+\begin{tabularx}{\textwidth}{p{4cm}X}
+\toprule
+\textbf{Thành phần} & \textbf{Thiết lập} \\
+\midrule
+Backbone SpikeGPT & 216M tham số, 18 layer, embedding dimension 768. \\
+Context length & 1024 token. \\
+HeadQK & 256 chiều trong các cấu hình cải tiến. \\
+Loss gốc & Causal Language Modeling với Cross-Entropy Loss. \\
+Loss thử nghiệm & Copy-aware weighted Cross-Entropy, \(\alpha=2.0\), copy window 512 token. \\
+Dữ liệu chính & Train copyfix 50,249 mẫu, validation copyfix 6,730 mẫu. \\
+Baseline & GPT-2 Small và GPT-2 Medium fine-tuned trên cùng dạng dữ liệu tool calling. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\manualindent%
+Nhóm đánh giá hai chiến lược khởi tạo. Với \textit{training from scratch}, toàn bộ mô hình được học lại từ đầu trên dữ liệu tool calling. Với \textit{fine-tuning}, mô hình bắt đầu từ checkpoint SpikeGPT-216M pretrained rồi tiếp tục học trên dữ liệu của nhóm. Kết quả cho thấy fine-tuning ổn định hơn đáng kể vì mô hình đã có sẵn năng lực ngôn ngữ nền, còn training from scratch trên dữ liệu nhỏ dễ bị overfit hoặc học kém cấu trúc ngôn ngữ.
+
+\section{HeadQK}
+
+\manualindent%
+HeadQK là cải tiến kiến trúc quan trọng nhất nhóm sử dụng cho SpikeGPT. Ý tưởng là thêm một cơ chế tương tự attention nhẹ ở phần đầu ra, với kích thước 256 chiều. Mục tiêu không phải thay thế toàn bộ SRWKV bằng Transformer, mà cung cấp cho mô hình một khả năng đối chiếu lại ngữ cảnh gần hơn khi cần sinh token cụ thể trong arguments.
+
+\manualindent%
+Về mặt đánh đổi, HeadQK làm mô hình nặng hơn và giảm phần nào tinh thần tiết kiệm của SpikeGPT. Tuy nhiên, với bài toán tool calling, yêu cầu copy chính xác tham số là rất quan trọng. Do đó, nhóm chấp nhận hy sinh một phần độ nhẹ để tăng khả năng sinh đúng arguments.
+
+\manualindent%
+Có thể mô tả trực giác của HeadQK như một lớp đối chiếu bổ sung trên hidden states \(H=[h_1,\ldots,h_T]\). Từ hidden states, mô hình tạo query và key:
+
+\[
+Q = HW_Q,\qquad K = HW_K
+\]
+
+\manualindent%
+Sau đó tính điểm tương đồng nhân quả giữa vị trí hiện tại và các vị trí trước:
+
+\[
+S = \frac{QK^\top}{\sqrt{d_q}} + M_{\mathrm{causal}}
+\]
+
+\[
+A = \mathrm{softmax}(S)
+\]
+
+\manualindent%
+Trong đó \(d_q=256\) là kích thước HeadQK trong thực nghiệm, còn \(M_{\mathrm{causal}}\) là mặt nạ nhân quả để không nhìn tương lai. Khi sinh token trong phần arguments, lớp này giúp mô hình có thêm tín hiệu rằng token cần sinh có thể đã xuất hiện trong prompt. Vì vậy, HeadQK được kỳ vọng hỗ trợ các trường như \texttt{order\_id} và \texttt{product\_id}. Tuy nhiên, do chỉ là một head phụ ở đầu ra, nó không có khả năng thay thế hoàn toàn multi-head self-attention nhiều tầng của GPT-2.
+
+\placeholderfigure{Chèn hình minh họa HeadQK: hidden states -> Q/K -> attention score -> hỗ trợ copy token trong arguments.}{Cơ chế HeadQK được thêm vào SpikeGPT}
+
+\section{Hàm mất mát}
+
+\manualindent%
+Thiết lập huấn luyện cơ bản dùng Causal Language Modeling. Tại mỗi vị trí, mô hình dự đoán token kế tiếp và tối ưu cross-entropy:
+
+\[
+\mathcal{L}_{\mathrm{CE}} =
+- \sum_{t=1}^{T}\sum_{c=1}^{V} y_{t,c}\log(\hat{y}_{t,c})
+\]
+
+\manualindent%
+Trong đó \(T\) là chiều dài chuỗi, \(V\) là kích thước từ vựng, \(y_{t,c}\) là nhãn one-hot và \(\hat{y}_{t,c}\) là xác suất dự đoán sau softmax ở readout layer. Cross-entropy đối xử gần như ngang nhau với mọi token, trong khi bài toán tool calling lại đặc biệt nhạy với token thuộc arguments. Sai một token trong mã đơn hoặc địa chỉ có thể làm toàn bộ Args Exact Match bị tính sai.
+
+\manualindent%
+Vì vậy, nhóm thử thêm copy-aware weighted loss:
+
+\[
+\mathcal{L}_{\mathrm{copy}} =
+\frac{\sum_{t=1}^{T} w_t \cdot \mathrm{CE}(\hat{y}_t, y_t)}
+{\sum_{t=1}^{T} w_t}
+\]
+
+\[
+w_t =
+\begin{cases}
+\alpha, & \text{nếu token mục tiêu đã xuất hiện trong ngữ cảnh trước đó} \\
+1, & \text{ngược lại}
+\end{cases}
+\]
+
+\manualindent%
+Trong thực nghiệm, nhóm dùng \(\alpha = 2.0\) và cửa sổ copy 512 token. Ý tưởng là tăng trọng số cho các token có khả năng cần copy từ câu hỏi người dùng, như \texttt{order\_id}, \texttt{product\_id}, số lượng hoặc một phần địa chỉ. Kết quả cho thấy Args Exact Match tăng từ 13.94\% lên 16.88\%, nhưng Intent Accuracy và F1-score giảm. Do đó, nhóm không chọn loss mới làm mô hình chính, mà xem đây là một ablation chứng minh rằng việc nhấn mạnh token copy có tác dụng cục bộ nhưng làm mất cân bằng học intent.
+
+\manualindent%
+Điểm cần nhấn mạnh là loss mới không thay đổi bản chất bài toán Causal Language Modeling. Mô hình vẫn học dự đoán token kế tiếp. Thay đổi duy nhất nằm ở trọng số từng vị trí token. Nếu token mục tiêu \(y_t\) đã xuất hiện trong cửa sổ ngữ cảnh trước đó:
+
+\[
+\exists j < t,\quad t-j \le 512,\quad x_j = y_t
+\]
+
+\manualindent%
+thì vị trí đó được xem là copy-sensitive và có trọng số lớn hơn. Cách làm này dễ giải thích, không cần thay đổi output format, nhưng có rủi ro: mô hình có thể quá tập trung vào token copy và giảm năng lực phân biệt intent tổng quát.
+
+\section{Các chỉ số đánh giá}
+
+\begin{table}[H]
+\centering
+\caption{Các metric trong pipeline đánh giá}
+\begin{tabularx}{\textwidth}{p{3.5cm}X}
+\toprule
+\textbf{Metric} & \textbf{Ý nghĩa} \\
+\midrule
+Valid JSON & Tỷ lệ model sinh được output đúng cú pháp JSON trong thẻ \texttt{<tool\_call>}. \\
+Intent Accuracy & Tỷ lệ model chọn đúng tên công cụ cần gọi. \\
+Args Exact Match & Tỷ lệ model sinh đúng toàn bộ dictionary \texttt{arguments} so với ground truth. \\
+Precision & Khi model dự đoán một tool, tỷ lệ dự đoán đó thật sự đúng. \\
+Recall & Trong các mẫu thật sự thuộc một tool, tỷ lệ model nhận ra đúng tool đó. \\
+F1-score & Trung bình điều hòa giữa Precision và Recall, phản ánh chất lượng phân loại tool. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\manualindent%
+Cần lưu ý rằng Args Exact Match trong notebook đánh giá so sánh toàn bộ dictionary arguments, không chỉ riêng ID. Vì vậy, nếu sai một ký tự trong địa chỉ, sai kiểu dữ liệu của số lượng hoặc thừa thiếu một khóa, mẫu đó bị tính sai hoàn toàn.
+
+\manualindent%
+Các metric phân loại tool được tính từ ma trận nhầm lẫn giữa tool thật và tool dự đoán. Với một tool \(c\), ký hiệu \(TP_c\) là số mẫu tool \(c\) được dự đoán đúng, \(FP_c\) là số mẫu không thuộc \(c\) nhưng bị dự đoán thành \(c\), và \(FN_c\) là số mẫu thuộc \(c\) nhưng bị dự đoán sang tool khác. Khi đó:
+
+\[
+\mathrm{Precision}_c = \frac{TP_c}{TP_c + FP_c}
+\]
+
+\[
+\mathrm{Recall}_c = \frac{TP_c}{TP_c + FN_c}
+\]
+
+\[
+\mathrm{F1}_c = \frac{2\cdot \mathrm{Precision}_c \cdot \mathrm{Recall}_c}{\mathrm{Precision}_c + \mathrm{Recall}_c}
+\]
+
+\manualindent%
+Intent Accuracy là accuracy trên tên tool:
+
+\[
+\mathrm{IntentAcc} = \frac{1}{N}\sum_{i=1}^{N}\mathbf{1}[\hat{n}_i=n_i]
+\]
+
+\manualindent%
+Args Exact Match là tỷ lệ toàn bộ dictionary arguments khớp tuyệt đối:
+
+\[
+\mathrm{ArgsEM} = \frac{1}{N}\sum_{i=1}^{N}\mathbf{1}[\hat{A}_i=A_i]
+\]
+
+\manualindent%
+Weighted F1 là trung bình F1 theo số lượng mẫu của từng tool:
+
+\[
+\mathrm{WeightedF1}=\sum_{c\in\mathcal{N}}\frac{N_c}{N}\mathrm{F1}_c
+\]
+
+\manualindent%
+Vì dataset test tương đối cân bằng giữa các tool, Weighted F1 thường gần với Intent Accuracy. Tuy nhiên, F1 vẫn hữu ích hơn khi phân tích sâu vì nó chỉ ra tool nào có precision thấp, tool nào có recall thấp.
+
+\placeholderfigure{Chèn hình confusion matrix chọn tool từ notebook đánh giá.}{Ma trận nhầm lẫn cho bài toán chọn tool}
+
+\section{Thiết kế ablation}
+
+Nhóm thực hiện các hướng thử nghiệm sau:
+
+\begin{itemize}
+  \item \textbf{Chỉ đổi dữ liệu}: thêm phần suy nghĩ \texttt{[THOUGHT]} vào prompt để hy vọng mô hình ghi nhớ ID tốt hơn. Kết quả thất bại vì chuỗi dài hơn làm mô hình dễ lặp và sinh sai cấu trúc.
+  \item \textbf{Chỉ đổi kiến trúc}: thêm HeadQK để hỗ trợ copy token. Kết quả cải thiện format JSON và Args Exact Match nhưng chưa giải quyết triệt để.
+  \item \textbf{Kết hợp dữ liệu và kiến trúc}: thêm cả \texttt{[THOUGHT]} và HeadQK. Kết quả xấu do nhiễu giữa phần sinh tiếng Việt và phần sinh JSON.
+  \item \textbf{Gating, freeze và local window}: thử các kỹ thuật giảm sốc khi thêm attention. Kết quả vẫn không ổn định, cho thấy lõi SpikeGPT 216M có giới hạn dung lượng đối với tác vụ exact copying.
+  \item \textbf{Sửa dữ liệu và copy-aware loss}: cải thiện chất lượng copy signal và tăng trọng số token cần copy. Kết quả tăng Args nhưng giảm intent/F1.
+  \item \textbf{Kiểm tra định dạng ID}: tạo thêm test set chuẩn hóa ID về dạng gần train. Kết quả không khác biệt lớn, loại trừ giả thuyết ID format là nguyên nhân chính.
+\end{itemize}
+
+\section{Pipeline suy luận và đánh giá}
+
+\manualindent%
+Pipeline đánh giá được thiết kế để đo đúng năng lực tool calling, không chỉ đo loss huấn luyện. Với mỗi mẫu test, hệ thống lấy câu user prompt, ghép với system prompt cố định, sau đó yêu cầu mô hình sinh tiếp phần assistant. Output sinh ra được đưa qua bộ parser để tìm đoạn \texttt{<tool\_call>} và parse JSON.
+
+\manualindent%
+Quy trình gồm các bước:
+
+\begin{enumerate}[label=\arabic*.]
+  \item Đọc ground truth từ JSONL, gồm câu user, tên tool thật và arguments thật.
+  \item Tạo prompt suy luận theo cùng chat template khi train.
+  \item Sinh output bằng greedy decoding cho đến khi gặp \texttt{</tool\_call>} hoặc đạt giới hạn token.
+  \item Trích xuất JSON từ output; nếu parse thất bại, gán nhãn \texttt{invalid\_json} hoặc \texttt{no\_json\_found}.
+  \item So sánh \texttt{name} dự đoán với \texttt{name} thật để tính Intent Accuracy và các metric phân loại.
+  \item So sánh nguyên dictionary \texttt{arguments} dự đoán với ground truth để tính Args Exact Match.
+  \item Lưu toàn bộ prediction, raw output và trạng thái đúng/sai để phục vụ phân tích lỗi.
+\end{enumerate}
+
+\manualindent%
+Cách đánh giá này nghiêm ngặt hơn việc chỉ nhìn vài mẫu demo. Một output nhìn bằng mắt có thể ``gần đúng'', nhưng nếu JSON không parse được hoặc arguments sai một trường, hệ thống tự động vẫn tính là lỗi. Điều này phù hợp với bối cảnh API calling thực tế, nơi định dạng và tham số cần chính xác.
+
+% =========================
+% Chapter 5
+% =========================
+\chapter{KẾT QUẢ VÀ PHÂN TÍCH}
+
+\section{Kết quả tổng quan}
+
+\begin{table}[H]
+\centering
+\caption{So sánh SpikeGPT và GPT-2 trên bài toán tool calling}
+\scriptsize
+\begin{tabularx}{\textwidth}{Xrrrrrr}
+\toprule
+\textbf{Mô hình} & \textbf{Valid JSON} & \textbf{Intent Acc} & \textbf{Args EM} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+\midrule
+SpikeGPT NoHeadQK ep78 & 100.00 & 86.62 & 0.00 & 0.8781 & 0.8662 & 0.8659 \\
+SpikeGPT Scratch HeadQK ep78 & 95.98 & 84.64 & 1.78 & 0.8944 & 0.8464 & 0.8655 \\
+SpikeGPT Scratch HeadQK ep220 & 91.52 & 81.24 & 4.68 & 0.9022 & 0.8124 & 0.8463 \\
+SpikeGPT Finetune HeadQK ep220 & 99.80 & 94.10 & 13.94 & 0.9459 & 0.9410 & 0.9415 \\
+GPT-2 Small & 99.98 & 96.52 & 68.30 & 0.9671 & 0.9652 & 0.9648 \\
+GPT-2 Medium & 100.00 & 96.78 & 67.76 & 0.9696 & 0.9678 & 0.9678 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\manualindent%
+Bảng kết quả cho thấy SpikeGPT có thể học tốt cấu trúc tool calling ở hai tầng đầu. Mô hình fine-tune với HeadQK đạt 99.80\% Valid JSON và 94.10\% Intent Accuracy. Điều này chứng minh mô hình có khả năng sinh JSON hợp lệ và hiểu tương đối tốt yêu cầu của người dùng để chọn tool phù hợp.
+
+\manualindent%
+Tuy nhiên, Args Exact Match vẫn là điểm nghẽn lớn. Cấu hình SpikeGPT tốt nhất chỉ đạt 13.94\%, trong khi GPT-2 Small và GPT-2 Medium đạt khoảng 68\%. Chênh lệch này rất lớn và nhất quán với trực giác: Transformer có self-attention đầy đủ nên thuận lợi hơn trong việc copy thông tin cụ thể từ input sang output.
+
+\manualindent%
+Khi đọc bảng kết quả, cần tách ba câu hỏi khác nhau. Thứ nhất, mô hình có sinh được JSON đúng cú pháp hay không; SpikeGPT làm khá tốt ở tầng này. Thứ hai, mô hình có hiểu tác vụ hay không; SpikeGPT fine-tune cũng đạt mức cao. Thứ ba, mô hình có copy đúng toàn bộ arguments hay không; đây là nơi SpikeGPT thua rõ Transformer. Do đó, kết luận không phải là SpikeGPT ``không học được'', mà là SpikeGPT học được format và intent nhưng chưa đủ mạnh cho exact copying.
+
+\placeholderfigure{Chèn biểu đồ cột so sánh Valid JSON, Intent Accuracy, Args Exact Match và F1 giữa SpikeGPT và GPT-2.}{So sánh tổng quan các metric chính}
+
+\section{Phân tích theo từng nhóm metric}
+
+\manualindent%
+\textbf{Valid JSON.} Tỷ lệ JSON hợp lệ cao cho thấy mô hình học được khung output. Với mô hình Finetune HeadQK ep220, 99.80\% output parse được thành JSON. Điều này quan trọng vì nếu JSON sai cú pháp, hệ thống phía sau không thể gọi tool dù intent có thể đúng.
+
+\manualindent%
+\textbf{Intent Accuracy và F1-score.} SpikeGPT fine-tune đạt 94.10\% Intent Accuracy và F1-score 0.9415. Hai chỉ số này gần nhau vì tập test tương đối cân bằng giữa các tool. Kết quả cho thấy mô hình đã học được ngữ nghĩa tổng quát của câu lệnh, ví dụ phân biệt kiểm kho, tạo đơn, cập nhật đơn và phân tích doanh thu.
+
+\manualindent%
+\textbf{Args Exact Match.} Đây là chỉ số thấp nhất và cũng là chỉ số quan trọng nhất cho tool calling thực tế. SpikeGPT fine-tune chỉ đạt 13.94\%, trong khi GPT-2 đạt khoảng 68\%. Khoảng cách này cho thấy bài toán không dừng ở phân loại intent. Mô hình phải thực hiện một dạng copy có điều kiện, trong đó token cụ thể ở input cần được tái hiện chính xác ở output.
+
+\manualindent%
+\textbf{Precision và Recall.} Precision trả lời câu hỏi: khi mô hình chọn một tool, lựa chọn đó đáng tin đến mức nào. Recall trả lời câu hỏi: với các mẫu thật sự thuộc một tool, mô hình bắt được bao nhiêu. Trong báo cáo kết quả, một số tool có precision cao nhưng recall thấp, nghĩa là mô hình chỉ chọn tool đó khi khá chắc nhưng bỏ sót nhiều mẫu. Ngược lại, tool có recall cao nhưng precision thấp thường bị mô hình chọn quá tay.
+
+\section{Tác động của HeadQK}
+
+\manualindent%
+Khi không dùng HeadQK, SpikeGPT đạt 0.00\% Args Exact Match dù Valid JSON và Intent Accuracy vẫn khá cao. Điều này cho thấy mô hình có thể học khuôn dạng tổng quát nhưng gần như không copy đúng tham số hoàn chỉnh. Khi thêm HeadQK, Args Exact Match tăng lên 1.78\% ở epoch 78 và 4.68\% ở epoch 220 khi train from scratch. Với fine-tuning từ checkpoint pretrained, HeadQK giúp mô hình đạt 13.94\% Args Exact Match.
+
+\manualindent%
+Kết quả này cho thấy HeadQK là cải tiến có tác dụng thật, nhưng chưa đủ mạnh. Nó giúp mô hình giảm lỗi format và tăng khả năng đối chiếu token, song không thể thay thế hoàn toàn cơ chế attention nhiều lớp của Transformer. Đây là điểm quan trọng khi bảo vệ đồ án: nhóm không chỉ tái hiện paper mà đã thử điều chỉnh kiến trúc theo nhu cầu bài toán, đồng thời phân tích rõ đánh đổi.
+
+\manualindent%
+Nếu xem NoHeadQK là baseline SpikeGPT thuần, việc Args Exact Match tăng từ 0.00\% lên 13.94\% ở cấu hình fine-tune tốt nhất cho thấy HeadQK không phải thay đổi hình thức. Nó trực tiếp tác động đến metric yếu nhất. Tuy vậy, mức 13.94\% vẫn thấp hơn rất nhiều so với GPT-2. Điều này cho phép rút ra kết luận cân bằng: HeadQK có cải thiện, nhưng chưa giải quyết triệt để giới hạn copy của kiến trúc SNN/RWKV.
+
+\begin{table}[H]
+\centering
+\caption{Tóm tắt tác động của các cấu hình SpikeGPT}
+\begin{tabularx}{\textwidth}{p{4cm}X}
+\toprule
+\textbf{Cấu hình} & \textbf{Nhận xét chính} \\
+\midrule
+NoHeadQK ep78 & Học được JSON và intent ở mức khá, nhưng Args Exact Match bằng 0, cho thấy gần như không copy hoàn chỉnh. \\
+Scratch HeadQK ep78 & HeadQK bắt đầu giúp Args EM khác 0, nhưng mô hình chưa đủ hội tụ. \\
+Scratch HeadQK ep220 & Train lâu hơn giúp Args tăng nhưng Valid JSON và Intent giảm, cho thấy training from scratch không ổn định. \\
+Finetune HeadQK ep220 & Cân bằng tốt nhất: JSON và intent cao, Args cao nhất trong nhóm SpikeGPT loss gốc. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Ablation về hàm mất mát}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả thử copy-aware loss}
+\begin{tabularx}{\textwidth}{Xrrrr}
+\toprule
+\textbf{Cấu hình} & \textbf{Valid JSON} & \textbf{Intent Acc} & \textbf{Args EM} & \textbf{F1} \\
+\midrule
+Finetune HeadQK ep220, loss gốc & 99.80 & 94.10 & 13.94 & 0.9415 \\
+Finetune HeadQK, copy-aware loss & 99.94 & 91.28 & 16.88 & 0.9131 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\manualindent%
+Copy-aware loss cải thiện Args Exact Match thêm 2.94 điểm phần trăm. Điều này phù hợp với mục tiêu thiết kế: các token từng xuất hiện trong ngữ cảnh được tăng trọng số nên mô hình chú ý hơn đến khả năng copy. Tuy nhiên, Intent Accuracy giảm từ 94.10\% xuống 91.28\% và F1-score giảm từ 0.9415 xuống 0.9131. Vì vậy, loss mới không được chọn làm cấu hình chính. Kết quả này vẫn có ý nghĩa vì nó cho thấy nhóm đã thử tối ưu đúng metric yếu nhất, nhưng bài toán có đánh đổi giữa học intent và học exact copying.
+
+\manualindent%
+Về mặt báo cáo, kết quả này nên được trình bày như một thí nghiệm thất bại có giá trị. Nó chứng minh giả thuyết ``tăng trọng số token copy có thể cải thiện Args'' là đúng một phần. Nhưng vì tool calling gồm cả chọn tool và sinh arguments, tối ưu quá mạnh một phần mục tiêu có thể làm giảm cân bằng tổng thể. Vì vậy nhóm chọn mô hình Finetune HeadQK epoch 220 làm mô hình chính, còn copy-aware loss là hướng cải tiến cần nghiên cứu thêm.
+
+\section{Ablation về định dạng ID}
+
+\manualindent%
+Ban đầu nhóm nghi ngờ Args Exact Match thấp do test set sử dụng định dạng ID lệch phân phối train, ví dụ nhiều ID có gạch nối như \texttt{MAC-59-PRO}. Nhóm tạo thêm test set trong đó \texttt{order\_id} và \texttt{product\_id} được chuẩn hóa về dạng chữ nối số, gần với phân phối train. Kết quả với mô hình Finetune220 đạt 99.88\% Valid JSON, 92.86\% Intent Accuracy và 13.52\% Args Exact Match, không khác biệt đáng kể so với kết quả ban đầu.
+
+\manualindent%
+Do đó, có thể kết luận định dạng ID không phải nguyên nhân chính. Vấn đề nằm ở năng lực ràng buộc thông tin cụ thể giữa input và output. Nói cách khác, mô hình không chỉ gặp khó với dấu gạch nối, mà gặp khó với việc giữ nguyên một chuỗi token cụ thể qua nhiều bước sinh.
+
+\begin{table}[H]
+\centering
+\caption{Kiểm tra giả thuyết ID format}
+\begin{tabularx}{\textwidth}{Xrrr}
+\toprule
+\textbf{Bộ test} & \textbf{Valid JSON} & \textbf{Intent Acc} & \textbf{Args EM} \\
+\midrule
+Test OOD ban đầu & 99.80 & 94.10 & 13.94 \\
+Test ID in-distribution & 99.88 & 92.86 & 13.52 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\manualindent%
+Bảng trên không nhằm chứng minh bộ test nào tốt hơn, mà nhằm kiểm tra một giả thuyết cụ thể: liệu ID có gạch nối nhiều segment có làm model hỏng nặng hay không. Vì kết quả Args EM gần như không tăng khi đưa ID về dạng gần train, giả thuyết này bị bác bỏ. Đây là một điểm mạnh về mặt phương pháp luận vì nhóm không chỉ phỏng đoán nguyên nhân mà có kiểm chứng bằng ablation.
+
+\section{Phân tích vì sao SpikeGPT yếu ở Args Exact Match}
+
+\manualindent%
+Có bốn nguyên nhân chính.
+
+\manualindent%
+\textbf{Thứ nhất, cơ chế hồi quy nén thông tin.} SpikeGPT xử lý chuỗi tuần tự qua trạng thái ẩn. Thông tin quá khứ được giữ lại thông qua decay và tích lũy, nhưng không có khả năng truy cập trực tiếp mọi token như self-attention. Với các tham số cần copy chính xác, chỉ cần trạng thái ẩn làm mờ một ký tự hoặc một token, output đã sai.
+
+\manualindent%
+\textbf{Thứ hai, biểu diễn xung nhị phân làm giảm độ phân giải.} SNN dùng spike 0/1, trong khi Transformer truyền vector số thực liên tục. Biểu diễn nhị phân giúp tiết kiệm năng lượng lý thuyết nhưng có thể làm mất chi tiết vi mô của token, nhất là với chuỗi ID, số lượng và địa chỉ.
+
+\manualindent%
+\textbf{Thứ ba, Args Exact Match là metric rất nghiêm ngặt.} Nếu model chọn đúng tool và copy đúng phần lớn tham số nhưng sai một ký tự trong address, sai kiểu dữ liệu hoặc thiếu một khóa, toàn bộ mẫu bị tính sai. Vì vậy, khoảng cách giữa Intent Accuracy và Args Exact Match là điều dễ hiểu.
+
+\manualindent%
+\textbf{Thứ tư, HeadQK chỉ là attention nhẹ.} HeadQK giúp cải thiện khả năng copy nhưng được thêm ở mức hạn chế để không phá hoàn toàn kiến trúc SpikeGPT. Nó không có sức biểu đạt tương đương nhiều lớp multi-head self-attention của GPT-2.
+
+\section{Các dạng lỗi thường gặp}
+
+\manualindent%
+Qua quá trình xem log suy luận, nhóm ghi nhận một số dạng lỗi lặp lại.
+
+\begin{itemize}
+  \item \textbf{Sai tool nhưng arguments có vẻ hợp lý}: mô hình trích được mã đơn hoặc mã sản phẩm nhưng chọn nhầm giữa \texttt{get\_order}, \texttt{delete\_order} và \texttt{update\_order}.
+  \item \textbf{Đúng tool nhưng sai ID}: mô hình sinh đúng schema nhưng bịa hoặc biến đổi một phần \texttt{order\_id}/\texttt{product\_id}.
+  \item \textbf{Đúng ID nhưng sai field khác}: trong các tool nhiều tham số như \texttt{create\_order} hoặc \texttt{update\_order}, mô hình có thể đúng ID nhưng sai số lượng hoặc địa chỉ.
+  \item \textbf{Sai kiểu dữ liệu}: ví dụ số lượng được sinh thành chuỗi thay vì số, làm dictionary không khớp tuyệt đối.
+  \item \textbf{Thiếu hoặc thừa khóa}: mô hình sinh thiếu \texttt{address} hoặc thêm một argument không có trong ground truth.
+\end{itemize}
+
+\manualindent%
+Các lỗi này giải thích vì sao Valid JSON và Intent Accuracy cao nhưng Args Exact Match thấp. Một output có thể nhìn có vẻ đúng về cấu trúc, nhưng chỉ cần sai một trường nhỏ là metric Args EM tính sai toàn bộ. Đây cũng là lý do nhóm đề xuất hướng phát triển là tách metric arguments theo từng field để phân tích chi tiết hơn.
+
+\placeholderfigure{Chèn bảng hoặc hình minh họa 3-5 prediction sai tiêu biểu từ predictions.json.}{Ví dụ các dạng lỗi suy luận thường gặp}
+
+\section{Đánh giá định tính}
+
+\manualindent%
+Về định tính, mô hình SpikeGPT fine-tune cho thấy ba điểm tích cực. Thứ nhất, mô hình thường sinh đúng cặp thẻ \texttt{<tool\_call>} và \texttt{</tool\_call>}. Thứ hai, mô hình học được cú pháp JSON tương đối ổn định. Thứ ba, mô hình hiểu được nhiều cách diễn đạt tiếng Việt khác nhau cho cùng một intent, ví dụ ``hủy đơn'', ``cancel đơn'', ``xóa hóa đơn'' đều có thể ánh xạ về \texttt{delete\_order}.
+
+\manualindent%
+Điểm yếu định tính nằm ở các chuỗi cần giữ nguyên. Khi câu hỏi chứa mã hoặc địa chỉ dài, SpikeGPT có xu hướng sinh một giá trị gần giống nhưng không hoàn toàn trùng. Điều này khác với lỗi ngôn ngữ thông thường: trong hội thoại tự do, một câu gần đúng có thể chấp nhận được; trong tool calling, một mã đơn gần đúng vẫn là sai.
+
+\placeholderfigure{Chèn hình demo thành công: user request -> SpikeGPT sinh đúng JSON tool call.}{Ví dụ suy luận thành công của SpikeGPT}
+
+\section{So sánh với bài báo gốc}
+
+\manualindent%
+Bài báo SpikeGPT tập trung chứng minh rằng SNN có thể được mở rộng sang mô hình ngôn ngữ sinh, đạt kết quả cạnh tranh trên một số tác vụ NLG/NLU và có tiềm năng tiết kiệm năng lượng. Đồ án của nhóm đi theo hướng ứng dụng khác: kiểm tra SpikeGPT trên tool calling tiếng Việt, nơi yêu cầu output có cấu trúc và copy chính xác tham số.
+
+\manualindent%
+Kết quả của nhóm phù hợp với tinh thần của bài báo ở điểm SpikeGPT có thể học sinh ngôn ngữ và cấu trúc output. Tuy nhiên, đồ án cũng chỉ ra một giới hạn thực tế: với bài toán agentic yêu cầu exact copying, SpikeGPT hiện tại chưa cạnh tranh được với Transformer. Điều này không phủ nhận giá trị của SpikeGPT, mà cho thấy cần thêm cải tiến nếu muốn dùng SNN language model cho các tác vụ API calling nghiêm ngặt.
+
+% =========================
+% Chapter 6
+% =========================
+\chapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+
+\section{Kết luận}
+
+\manualindent%
+Đồ án đã tìm hiểu, tái hiện và ứng dụng SpikeGPT cho bài toán chatbot agentic trong quản lý thương mại. Nhóm xây dựng bộ dữ liệu tool calling tiếng Việt, fine-tune SpikeGPT-216M, thêm HeadQK, thử sửa dữ liệu và thử copy-aware loss. Kết quả cho thấy SpikeGPT có thể đạt Valid JSON và Intent Accuracy cao, đặc biệt khi fine-tune từ checkpoint pretrained với HeadQK.
+
+\manualindent%
+Tuy nhiên, điểm yếu lớn nhất là Args Exact Match. So với GPT-2, SpikeGPT thua rõ ở khả năng copy chính xác arguments. Điều này phản ánh giới hạn của kiến trúc hồi quy xung hóa khi phải giữ và tái tạo chính xác các chuỗi token cụ thể. Các thử nghiệm bổ sung cho thấy vấn đề không chỉ đến từ định dạng ID hay lỗi dữ liệu, mà là hạn chế bản chất hơn của mô hình đối với exact copying.
+
+\section{Hạn chế}
+
+\begin{itemize}
+  \item Dataset do nhóm tự sinh nên vẫn có thể còn thiên lệch về template và cách diễn đạt.
+  \item SpikeGPT được giả lập trên GPU, chưa đo được năng lượng thực tế trên phần cứng neuromorphic.
+  \item HeadQK làm tăng độ phức tạp, phần nào giảm ưu thế tiết kiệm của SpikeGPT.
+  \item Args Exact Match là metric nghiêm ngặt nhưng chưa tách riêng lỗi từng tham số như ID, số lượng và địa chỉ.
+  \item Nhóm chưa có đủ tài nguyên để train nhiều seed và nhiều kích thước mô hình lớn hơn.
+\end{itemize}
+
+\section{Hướng phát triển}
+
+\begin{itemize}
+  \item Tách metric arguments theo từng trường để biết mô hình sai chủ yếu ở \texttt{order\_id}, \texttt{product\_id}, số lượng hay địa chỉ.
+  \item Thử cơ chế copy/pointer hoặc constrained decoding để đảm bảo tham số được lấy trực tiếp từ input.
+  \item Kết hợp retrieval hoặc rule-based post-processing cho các trường có yêu cầu exact match.
+  \item Huấn luyện SpikeGPT kích thước lớn hơn hoặc dùng curriculum learning từ tool đơn giản đến tool nhiều tham số.
+  \item Đánh giá trên phần cứng neuromorphic để kiểm chứng ưu thế năng lượng thay vì chỉ dựa trên lý thuyết.
+\end{itemize}
+
+\section{Bài học rút ra}
+
+\manualindent%
+Bài học quan trọng nhất của đồ án là một mô hình có thể sinh JSON hợp lệ và chọn đúng intent nhưng vẫn chưa đủ tốt cho hệ thống agentic thực tế. Trong tool calling, độ chính xác của arguments là yếu tố quyết định. Việc thử nhiều hướng cải tiến, kể cả những hướng không thành công, giúp nhóm hiểu rõ hơn giới hạn của SpikeGPT: mô hình phù hợp với mục tiêu SNN và tiết kiệm năng lượng, nhưng cần thêm cơ chế hỗ trợ copy nếu muốn cạnh tranh với Transformer trong các tác vụ API calling nghiêm ngặt.
+
+\begin{thebibliography}{9}
+
+\bibitem{spikegpt}
+Zhu, R.-J., Zhao, Q., and Eshraghian, J. K. \textit{SpikeGPT: A Generative Pre-trained Language Model with Spiking Neural Networks}. arXiv:2302.13939, 2023.
+
+\bibitem{rwkv}
+Peng, B. et al. \textit{RWKV: Reinventing RNNs for the Transformer Era}. arXiv preprint, 2023.
+
+\bibitem{vaswani}
+Vaswani, A. et al. \textit{Attention Is All You Need}. Advances in Neural Information Processing Systems, 2017.
+
+\bibitem{gpt2}
+Radford, A. et al. \textit{Language Models are Unsupervised Multitask Learners}. OpenAI, 2019.
+
+\bibitem{snn}
+Neftci, E. O., Mostafa, H., and Zenke, F. \textit{Surrogate Gradient Learning in Spiking Neural Networks}. IEEE Signal Processing Magazine, 2019.
+
+\bibitem{spikegpt-code}
+Zhu, R.-J. et al. \textit{SpikeGPT official implementation}. GitHub repository: \texttt{https://github.com/ridgerchu/SpikeGPT}.
+
+\end{thebibliography}
+
+\end{document}
