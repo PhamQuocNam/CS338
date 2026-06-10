@@ -89,6 +89,26 @@
   \end{figure}
 }
 
+\newcommand{\assetfigure}[4][0.92\textwidth]{%
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=#1]{assets/#2}
+    \caption{#3. \textit{#4}}
+  \end{figure}
+}
+
+\newcommand{\coverornament}{%
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \draw[color=uitblue!45,line width=0.7pt] (-4.2,0) -- (-1.35,0);
+    \draw[color=uitblue!45,line width=0.7pt] (1.35,0) -- (4.2,0);
+    \draw[color=uitblue!70,line width=0.8pt]
+      plot[smooth] coordinates {(-1.2,-0.05) (-0.65,0.22) (0,0.02) (0.65,0.22) (1.2,-0.05)};
+    \foreach \x/\y/\r in {-1.2/-0.05/1.6, -0.65/0.22/1.8, 0/0.02/2.1, 0.65/0.22/1.8, 1.2/-0.05/1.6}
+      \fill[color=uitblue] (\x,\y) circle (\r pt);
+    \node[color=uitblue!80,font=\bfseries\scriptsize] at (0,-0.42) {SPIKING NEURAL NETWORKS};
+  \end{tikzpicture}%
+}
+
 \captionsetup{
   font=small,
   labelfont=bf,
@@ -124,50 +144,61 @@
   \setlength{\parskip}{0pt}
   \coverborder
   \centering
-  \vspace*{0.35cm}
+  \vspace*{0.1cm}
 
-  {\bfseries\Large TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN}\\
-  {\bfseries\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH}\\
-  {\bfseries\large KHOA KHOA HỌC MÁY TÍNH}
+  {\bfseries\Large TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN}\\[0.1cm]
+  {\bfseries\Large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH}\\[0.1cm]
+  {\bfseries\Large KHOA KHOA HỌC MÁY TÍNH}
 
-  \vspace{0.45cm}
-  \IfFileExists{uit.png}{\includegraphics[height=2.1cm]{uit.png}}{\universitylogo}
+  \vspace{0.62cm}
+  \IfFileExists{uit.png}{\includegraphics[height=3.45cm]{uit.png}}{\universitylogo}
 
-  \vspace{0.6cm}
+  \vspace{0.72cm}
 
-  {\bfseries\Large BÁO CÁO ĐỒ ÁN CUỐI KỲ}\\[0.25cm]
-  {\bfseries\large MÔN HỌC: CS338.Q22 - NHẬN DẠNG}
+  {\bfseries\Huge BÁO CÁO ĐỒ ÁN CUỐI KỲ}\\[0.28cm]
+  {\bfseries\Large MÔN HỌC: CS338.Q22 - NHẬN DẠNG}
 
-  \vspace{0.85cm}
+  \vspace{0.82cm}
 
-  \begin{minipage}{0.9\textwidth}
+  \begin{minipage}{0.92\textwidth}
     \centering
-    {\bfseries\large\color{uitblue} \projecttitle}
+    {\bfseries\LARGE\color{uitblue} \projecttitle}
   \end{minipage}
 
-  \vspace{0.85cm}
+  \vspace{0.82cm}
 
-  \small
-  \begin{tabular}{>{\bfseries}p{4.8cm}p{8.0cm}}
-    Giảng viên hướng dẫn: & Dương Việt Hằng, Trần Doãn Thuyên \\
-    Nhóm thực hiện: & Nhóm 5 \\
-    Bài báo tham chiếu: & SpikeGPT: A Generative Pre-trained Language Model with Spiking Neural Networks \\
-    Thời gian thực hiện: & 05/2026 \\
-  \end{tabular}
+  \normalsize
+  \begin{minipage}{0.88\textwidth}
+    \begin{tabular}{@{}>{\bfseries}p{4.0cm}p{8.0cm}@{}}
+      Giảng viên hướng dẫn: & Dương Việt Hằng, Trần Doãn Thuyên \\
+      Nhóm thực hiện: & Nhóm 5 \\
+      Bài báo tham chiếu: & SpikeGPT: A Generative Pre-trained Language Model with Spiking Neural Networks \\
+      Thời gian thực hiện: & 05/2026 \\
+    \end{tabular}
+  \end{minipage}
 
-  \vspace{0.65cm}
+  \vspace{0.78cm}
 
-  \begin{tabular}{clc}
+  \begin{minipage}{0.72\textwidth}
+  \centering
+  \begin{tabular}{>{\centering\arraybackslash}p{1.1cm}p{5.2cm}>{\centering\arraybackslash}p{2.5cm}}
     \toprule
-    STT & Họ và tên & MSSV \\
+    \textbf{STT} & \textbf{Họ và tên} & \textbf{MSSV} \\
     \midrule
     1 & Phạm Quốc Nam & 23520984 \\
     2 & Nguyễn Khang Hy & 23520662 \\
     \bottomrule
   \end{tabular}
+  \end{minipage}
 
-  \vspace{0.75cm}
-  {\bfseries TP. Hồ Chí Minh, tháng 05 năm 2026}
+  \vspace{0.95cm}
+  \coverornament
+
+  \vfill
+
+  \makebox[\textwidth][c]{\rule{0.58\textwidth}{0.4pt}}\\[0.28cm]
+  \makebox[\textwidth][c]{{\bfseries\normalsize TP. Hồ Chí Minh, tháng 05 năm 2026}}
+  \vspace*{0.18cm}
   \endgroup
 \end{titlepage}
 
@@ -306,13 +337,15 @@ Thứ nhất, self-attention xử lý toàn cục trên chuỗi, trong khi SNN h
 Về độ phức tạp, self-attention chuẩn với chuỗi dài \(T\) và chiều ẩn \(d\) cần tính ma trận tương quan giữa mọi cặp vị trí:
 
 \[
-\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d}}\right)V
+f(X)=\mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V,
+\qquad
+Q=XM_Q,\quad K=XM_K,\quad V=XM_V
 \]
 
 \manualindent%
 Ma trận \(QK^\top\) có kích thước \(T \times T\), nên chi phí theo chiều dài chuỗi thường được mô tả là \(O(T^2d)\). Trong khi đó, hướng RWKV/SRWKV cập nhật trạng thái theo từng bước thời gian, do đó có thể đạt chi phí tuyến tính \(O(Td)\) theo chiều dài chuỗi. Đây là lý do SpikeGPT chọn RWKV làm xương sống thay vì đưa Transformer trực tiếp vào SNN.
 
-\placeholderfigure{Chèn hình so sánh self-attention toàn cục của Transformer và xử lý tuần tự của RWKV/SNN.}{So sánh cơ chế xử lý chuỗi của Transformer và SpikeGPT}
+\placeholderfigure{Chèn hình tự vẽ hoặc crop sạch minh họa self-attention toàn cục của Transformer và xử lý tuần tự của RWKV/SNN.}{So sánh cơ chế xử lý chuỗi của Transformer và SpikeGPT}
 
 \section{Spiking Neural Networks và LIF neuron}
 
@@ -320,18 +353,18 @@ Ma trận \(QK^\top\) có kích thước \(T \times T\), nên chi phí theo chi�
 Spiking Neural Networks là thế hệ mạng nơ-ron sử dụng xung rời rạc để truyền thông tin. Một nơ-ron không phát tín hiệu liên tục ở mọi thời điểm, mà tích lũy điện thế màng theo thời gian. Khi điện thế vượt ngưỡng, nơ-ron phát xung và trạng thái được reset. Mô hình Leaky Integrate-and-Fire (LIF) thường được dùng để mô tả quá trình này.
 
 \manualindent%
-Một dạng rời rạc đơn giản của LIF có thể viết như sau:
+Theo bài báo SpikeGPT, động học LIF được viết như sau:
 
 \[
-u_t = \lambda u_{t-1} + x_t - v_{\mathrm{th}}s_{t-1}
-\]
-
-\[
-s_t = H(u_t - v_{\mathrm{th}})
+\begin{cases}
+U[t] = H[t] + \beta\left(Y[t] - (H[t-1] - U_{\mathrm{reset}})\right) \\
+S[t] = \Theta\left(U[t] - U_{\mathrm{threshold}}\right) \\
+H[t] = U[t]\cdot (1-S[t])
+\end{cases}
 \]
 
 \manualindent%
-Trong đó \(u_t\) là điện thế màng tại thời điểm \(t\), \(\lambda\) là hệ số rò rỉ, \(x_t\) là tín hiệu đầu vào, \(v_{\mathrm{th}}\) là ngưỡng phát xung, \(s_t\) là xung đầu ra và \(H(\cdot)\) là hàm Heaviside. Nếu điện thế vượt ngưỡng, nơ-ron phát ra xung nhị phân. Nếu không, đầu ra bằng 0.
+Trong đó \(\beta\) là hệ số suy giảm, \(U\) là điện thế màng, \(S\) là tensor spike nhị phân, \(Y\) là đầu ra từ khối RWKV trước đó, \(\Theta(\cdot)\) là hàm Heaviside, và \(H\) biểu diễn quá trình reset sau khi phát xung. Paper đặt \(U_{\mathrm{threshold}}=1\), \(U_{\mathrm{reset}}=0\) và \(\beta=0.5\).
 
 \manualindent%
 Khó khăn chính của LIF là hàm Heaviside không khả vi. Trong huấn luyện bằng lan truyền ngược, đạo hàm của hàm bước gần như bằng 0 ở hầu hết mọi nơi, làm gradient không thể truyền hiệu quả. SpikeGPT giải quyết bằng surrogate gradient: trong forward vẫn dùng xung nhị phân, nhưng trong backward thay đạo hàm của Heaviside bằng một hàm xấp xỉ trơn, chẳng hạn arctangent surrogate.
@@ -340,27 +373,55 @@ Khó khăn chính của LIF là hàm Heaviside không khả vi. Trong huấn luy
 Có thể hiểu quá trình này như một thủ thuật tách biệt giữa lan truyền xuôi và lan truyền ngược. Ở forward, mô hình vẫn giữ tính chất xung:
 
 \[
-s_t = H(u_t - v_{\mathrm{th}})
+S[t] = \Theta(U[t]-U_{\mathrm{threshold}})
 \]
 
 \manualindent%
 Nhưng khi tính gradient, đạo hàm không dùng trực tiếp \(H'(x)\), mà thay bằng một hàm surrogate \(\sigma'(x)\):
 
 \[
-\frac{\partial s_t}{\partial u_t}
+\frac{\partial S[t]}{\partial U[t]}
 \approx
-\sigma'(u_t - v_{\mathrm{th}})
+\sigma'(U[t]-U_{\mathrm{threshold}})
+\]
+
+\[
+\sigma'(x)=
+\frac{\alpha}
+{2\left(1+\left(\frac{\pi}{2}\alpha x\right)^2\right)}
 \]
 
 \manualindent%
 Nhờ vậy, mạng vẫn có thể được huấn luyện bằng backpropagation trong khi đầu ra trung gian vẫn là spike rời rạc. Đây là điểm then chốt giúp SNN có thể mở rộng sang các tác vụ học sâu phức tạp như mô hình ngôn ngữ.
 
-\placeholderfigure{Chèn hình minh họa điện thế màng tích lũy, vượt ngưỡng, phát xung và reset của LIF neuron.}{Động học của nơ-ron LIF}
+\placeholderfigure{Chèn hình tự vẽ minh họa điện thế màng tích lũy, vượt ngưỡng, phát xung và reset của LIF neuron.}{Động học của nơ-ron LIF}
 
 \section{Kiến trúc SpikeGPT}
 
 \manualindent%
 SpikeGPT là mô hình ngôn ngữ sinh kết hợp giữa đặc tính hồi quy của RWKV và cơ chế nơ-ron xung của SNN. Thay vì sử dụng self-attention như Transformer, SpikeGPT dùng Spiking RWKV để xử lý thông tin theo từng bước thời gian. Điều này giúp mô hình phù hợp hơn với cơ chế tuần tự của SNN và có độ phức tạp tuyến tính theo chiều dài chuỗi.
+
+\manualindent%
+Kiến trúc tổng quát trong paper được mô tả bởi:
+
+\[
+X_0 = \mathrm{BE}(I),\qquad I\in \mathbb{R}^{T\times d},\quad X_0\in \mathbb{R}^{T\times d}
+\]
+
+\[
+X'_l = \mathrm{SRWKV}(X_{l-1}) + X_{l-1},\qquad l=1,\ldots,L
+\]
+
+\[
+X_l = \mathrm{SRFFN}(X'_l)+X'_l,\qquad l=1,\ldots,L
+\]
+
+\[
+Y = \mathrm{GH}(X_L)
+\]
+
+\manualindent%
+Trong đó \(\mathrm{BE}\) là Binary Embedding, \(\mathrm{SRWKV}\) là Spiking RWKV, \(\mathrm{SRFFN}\) là Spiking Receptance Feed-Forward Network và \(\mathrm{GH}\) là generation head.
 
 \subsection{Binary Embedding}
 
@@ -376,28 +437,42 @@ RWKV có thể được xem như một kiến trúc lai giữa Transformer và R
 Trong SpikeGPT, RWKV được chuyển thành Spiking RWKV. Dữ liệu được xử lý theo từng token \(X[t]\), phù hợp với SNN. Thay vì tạo ma trận attention lớn, SRWKV sử dụng các phép toán theo phần tử và trạng thái hồi quy. Điều này giảm chi phí tính toán, đồng thời tránh nhu cầu dùng causal mask như Transformer vì bản chất tuần tự đã đảm bảo mô hình không nhìn thấy tương lai.
 
 \manualindent%
-Một cách mô tả đơn giản hóa của RWKV tại thời điểm \(t\) là:
+Theo paper, tại mỗi bước thời gian, Spiking RWKV trước hết tạo các biến:
 
 \[
-r_t = \sigma(W_r x_t), \qquad k_t = W_k x_t, \qquad v_t = W_v x_t
+R[t]=X[t]M_R,\qquad K[t]=X[t]M_K,\qquad V[t]=X[t]M_V
+\]
+
+Sau đó output được tính bằng:
+
+\[
+Y[t+1]=
+\mathrm{SN}\left(
+\sigma(R[t])\odot
+\frac{
+\exp(W_f)\odot\exp(K[t])\odot V[t] + A[t]
+}{
+\exp(W_f)\odot\exp(K[t]) + B[t]
+}
+\right)
+\]
+
+Hai trạng thái ẩn \(A\) và \(B\) được cập nhật theo:
+
+\[
+A[t]=\exp(K[t])\odot V[t] + \exp(W_d)\odot A[t-1]
 \]
 
 \[
-a_t = e^{-w}\odot a_{t-1} + e^{k_t}\odot v_t
-\]
-
-\[
-b_t = e^{-w}\odot b_{t-1} + e^{k_t}
-\]
-
-\[
-o_t = r_t \odot \frac{a_t}{b_t}
+B[t]=\exp(K[t-1])+\exp(W_d)\odot B[t-1]
 \]
 
 \manualindent%
-Trong đó \(r_t\) đóng vai trò cổng receptance, \(k_t\) và \(v_t\) lần lượt tương tự key và value, \(a_t,b_t\) là hai trạng thái tích lũy quá khứ, \(w\) là tham số decay học được, và \(\odot\) là phép nhân từng phần tử. Công thức này cho thấy RWKV không cần lưu toàn bộ ma trận attention \(T\times T\), mà chỉ cần cập nhật trạng thái theo thời gian. Khi đưa vào SpikeGPT, các tín hiệu này tiếp tục được xử lý qua cơ chế spiking để phù hợp hơn với SNN.
+Trong đó \(\mathrm{SN}\) là lớp spiking neuron, \(\sigma(\cdot)\) là sigmoid, \(\odot\) là phép nhân từng phần tử, \(W_f\) dùng để nhấn mạnh thông tin tại bước hiện tại và \(W_d\) điều khiển độ suy giảm của thông tin quá khứ. Công thức này cho thấy SRWKV không cần lưu toàn bộ ma trận attention \(T\times T\), mà cập nhật trạng thái theo thời gian.
 
-\placeholderfigure{Chèn sơ đồ một block SpikeGPT gồm Binary Embedding, SRWKV, SRFFN, residual connection và readout layer.}{Kiến trúc tổng quát của một block SpikeGPT}
+\assetfigure[0.92\textwidth]{paper_fig1_architecture.png}
+{Kiến trúc tổng quát của SpikeGPT, Spiking RWKV và Spiking RFFN}
+{Nguồn: SpikeGPT paper \cite{spikegpt}}
 
 \subsection{Spiking Receptance Feed-Forward Network}
 
@@ -405,18 +480,18 @@ Trong đó \(r_t\) đóng vai trò cổng receptance, \(k_t\) và \(v_t\) lần 
 SRFFN là phiên bản xung hóa của khối feed-forward có cơ chế gating. Một nhánh tạo cổng điều tiết lượng thông tin được phép đi qua, nhánh còn lại xử lý nội dung chính. Đầu ra tiếp tục được đưa qua nơ-ron LIF để tạo tính thưa. Theo bài báo SpikeGPT, SRFFN giữ vai trò quan trọng vì các lớp feed-forward trong mô hình ngôn ngữ thường chứa nhiều thông tin ngữ nghĩa và tri thức nội tại.
 
 \manualindent%
-Dạng khái quát của một khối feed-forward có gating có thể viết:
+Theo paper, SRFFN gồm ba phép biến đổi tuyến tính và được viết:
 
 \[
-g_t = \sigma(W_g x_t), \qquad h_t = \phi(W_h x_t)
-\]
-
-\[
-y_t = \mathrm{LIF}(g_t \odot h_t)
+Y'[t]=
+\mathrm{SN}\left(
+\sigma(M_PX[t])\odot
+M_S\left(\mathrm{Activation}(M_GX[t])\right)
+\right)
 \]
 
 \manualindent%
-Trong đó \(g_t\) là cổng kiểm soát lượng thông tin đi qua, \(h_t\) là nhánh xử lý nội dung và \(\phi\) là hàm kích hoạt phi tuyến. Việc đưa LIF vào sau phép trộn kênh giúp đầu ra trở thành xung thưa, nhưng đồng thời cũng khiến thông tin phải đi qua một bước lượng tử hóa mạnh hơn so với feed-forward số thực của Transformer.
+Trong đó \(\mathrm{SN}\) là spiking neuron layer; \(Y'[t]\) là đầu ra SRFFN tại time-step \(t\); \(\{M_P,M_G,M_S\}\) là các tham số học được của các phép biến đổi tuyến tính; và \(\mathrm{Activation}\) là hàm kích hoạt. Tùy biến thể SpikeGPT, paper dùng \(\mathrm{ReLU}^2\) hoặc spiking neuron làm activation. Sau feed-forward, \(Y'[t]\) tiếp tục được đưa vào LIF neuron ở Eq. (1).
 
 \section{Ưu điểm và giới hạn kỳ vọng}
 
@@ -459,7 +534,7 @@ z = (n, A)
 \manualindent%
 Khác với phân loại intent đơn thuần, bài toán này gồm hai tầng phụ thuộc nhau. Tầng thứ nhất là chọn đúng \(n\). Tầng thứ hai là sinh đúng từng khóa và từng giá trị trong \(A\). Nếu tầng thứ nhất đúng nhưng tầng thứ hai sai, hệ thống vẫn có thể gọi API sai và gây lỗi nghiệp vụ.
 
-\placeholderfigure{Chèn hình pipeline: User request -> SpikeGPT -> JSON tool call -> API thương mại.}{Pipeline bài toán chatbot agentic trong quản lý thương mại}
+\placeholderfigure{Chèn hình pipeline sạch: User request -> SpikeGPT -> JSON tool call -> API thương mại.}{Pipeline bài toán chatbot agentic trong quản lý thương mại}
 
 \section{Bộ công cụ}
 
@@ -527,6 +602,8 @@ Sau giai đoạn sinh dữ liệu ban đầu, nhóm phát hiện nhiều mẫu c
 
 \manualindent%
 Nhóm viết script kiểm tra và sửa dữ liệu theo hướng bảo toàn copy signal. Các mẫu có thể sửa được sẽ thay biến thể trong câu user thành đúng giá trị trong nhãn; các mẫu không thể sửa chắc chắn bị loại bỏ. Sau xử lý, bộ train copyfix còn 50,249 mẫu và bộ validation copyfix còn 6,730 mẫu, với mục tiêu không còn argument literal bị thiếu trong câu người dùng.
+
+\placeholderfigure{Chèn sơ đồ tự vẽ về pipeline dữ liệu: schema tool -> sinh mẫu -> JSONL -> kiểm tra copy signal -> bin/idx.}{Pipeline tiền xử lý dữ liệu cho SpikeGPT}
 
 \manualindent%
 Quy tắc kiểm tra chất lượng quan trọng nhất là: với những argument cần copy, giá trị trong nhãn phải xuất hiện nguyên văn trong câu người dùng. Nếu ký hiệu câu người dùng là \(x\) và một argument là \((k,v)\), điều kiện mong muốn là:
@@ -641,6 +718,9 @@ Về mặt đánh đổi, HeadQK làm mô hình nặng hơn và giảm phần n�
 \manualindent%
 Có thể mô tả trực giác của HeadQK như một lớp đối chiếu bổ sung trên hidden states \(H=[h_1,\ldots,h_T]\). Từ hidden states, mô hình tạo query và key:
 
+\manualindent%
+\textit{Lưu ý: các công thức trong mục HeadQK là mô tả phần cải tiến do nhóm thêm vào implementation để phục vụ tool calling; chúng không phải công thức của kiến trúc SpikeGPT gốc trong paper.}
+
 \[
 Q = HW_Q,\qquad K = HW_K
 \]
@@ -659,23 +739,32 @@ A = \mathrm{softmax}(S)
 \manualindent%
 Trong đó \(d_q=256\) là kích thước HeadQK trong thực nghiệm, còn \(M_{\mathrm{causal}}\) là mặt nạ nhân quả để không nhìn tương lai. Khi sinh token trong phần arguments, lớp này giúp mô hình có thêm tín hiệu rằng token cần sinh có thể đã xuất hiện trong prompt. Vì vậy, HeadQK được kỳ vọng hỗ trợ các trường như \texttt{order\_id} và \texttt{product\_id}. Tuy nhiên, do chỉ là một head phụ ở đầu ra, nó không có khả năng thay thế hoàn toàn multi-head self-attention nhiều tầng của GPT-2.
 
-\placeholderfigure{Chèn hình minh họa HeadQK: hidden states -> Q/K -> attention score -> hỗ trợ copy token trong arguments.}{Cơ chế HeadQK được thêm vào SpikeGPT}
+\placeholderfigure{Chèn hình tự vẽ minh họa HeadQK: hidden states -> Q/K -> attention score -> hỗ trợ copy token trong arguments.}{Cơ chế HeadQK được thêm vào SpikeGPT}
 
 \section{Hàm mất mát}
 
 \manualindent%
-Thiết lập huấn luyện cơ bản dùng Causal Language Modeling. Tại mỗi vị trí, mô hình dự đoán token kế tiếp và tối ưu cross-entropy:
+Thiết lập huấn luyện cơ bản dùng Causal Language Modeling. Paper mô tả phân phối dự đoán token kế tiếp bằng:
 
 \[
-\mathcal{L}_{\mathrm{CE}} =
-- \sum_{t=1}^{T}\sum_{c=1}^{V} y_{t,c}\log(\hat{y}_{t,c})
+P(c_t)=\mathrm{softmax}\left(Y'[t]W_e^\top\right)
+\]
+
+Với chuỗi token \(C=\{c_1,c_2,\ldots,c_n\}\), mục tiêu language modeling trong paper là tối đa hóa:
+
+\[
+L_p=\sum_{i=1}^{T}
+\log P(c_i\mid c_1,c_2,\ldots,c_{i-1};\Theta)
 \]
 
 \manualindent%
-Trong đó \(T\) là chiều dài chuỗi, \(V\) là kích thước từ vựng, \(y_{t,c}\) là nhãn one-hot và \(\hat{y}_{t,c}\) là xác suất dự đoán sau softmax ở readout layer. Cross-entropy đối xử gần như ngang nhau với mọi token, trong khi bài toán tool calling lại đặc biệt nhạy với token thuộc arguments. Sai một token trong mã đơn hoặc địa chỉ có thể làm toàn bộ Args Exact Match bị tính sai.
+Trong đó \(W_e^\top\) là ma trận embedding token và \(\Theta\) là toàn bộ tham số mô hình. Khi triển khai bằng deep learning framework, việc tối đa hóa log-likelihood này thường tương đương với tối thiểu hóa negative log-likelihood/cross-entropy trên token kế tiếp. Cross-entropy đối xử gần như ngang nhau với mọi token, trong khi bài toán tool calling lại đặc biệt nhạy với token thuộc arguments. Sai một token trong mã đơn hoặc địa chỉ có thể làm toàn bộ Args Exact Match bị tính sai.
 
 \manualindent%
 Vì vậy, nhóm thử thêm copy-aware weighted loss:
+
+\manualindent%
+\textit{Lưu ý: copy-aware loss là biến thể thực nghiệm của nhóm nhằm tăng trọng số token cần copy; paper SpikeGPT gốc sử dụng objective language modeling ở Eq. (8)-(9), không có thành phần loss này.}
 
 \[
 \mathcal{L}_{\mathrm{copy}} =
@@ -728,6 +817,9 @@ Cần lưu ý rằng Args Exact Match trong notebook đánh giá so sánh toàn 
 
 \manualindent%
 Các metric phân loại tool được tính từ ma trận nhầm lẫn giữa tool thật và tool dự đoán. Với một tool \(c\), ký hiệu \(TP_c\) là số mẫu tool \(c\) được dự đoán đúng, \(FP_c\) là số mẫu không thuộc \(c\) nhưng bị dự đoán thành \(c\), và \(FN_c\) là số mẫu thuộc \(c\) nhưng bị dự đoán sang tool khác. Khi đó:
+
+\manualindent%
+\textit{Các công thức metric trong mục này là metric đánh giá của đồ án, không phải metric được paper SpikeGPT gốc sử dụng. Paper gốc chủ yếu báo cáo BPC/PPL cho NLG và accuracy cho NLU; đồ án dùng thêm metric phù hợp với tool calling.}
 
 \[
 \mathrm{Precision}_c = \frac{TP_c}{TP_c + FP_c}
@@ -835,7 +927,7 @@ Tuy nhiên, Args Exact Match vẫn là điểm nghẽn lớn. Cấu hình SpikeG
 \manualindent%
 Khi đọc bảng kết quả, cần tách ba câu hỏi khác nhau. Thứ nhất, mô hình có sinh được JSON đúng cú pháp hay không; SpikeGPT làm khá tốt ở tầng này. Thứ hai, mô hình có hiểu tác vụ hay không; SpikeGPT fine-tune cũng đạt mức cao. Thứ ba, mô hình có copy đúng toàn bộ arguments hay không; đây là nơi SpikeGPT thua rõ Transformer. Do đó, kết luận không phải là SpikeGPT ``không học được'', mà là SpikeGPT học được format và intent nhưng chưa đủ mạnh cho exact copying.
 
-\placeholderfigure{Chèn biểu đồ cột so sánh Valid JSON, Intent Accuracy, Args Exact Match và F1 giữa SpikeGPT và GPT-2.}{So sánh tổng quan các metric chính}
+\placeholderfigure{Chèn biểu đồ cột sạch so sánh Valid JSON, Intent Accuracy, Args Exact Match và F1 giữa SpikeGPT và GPT-2.}{So sánh tổng quan các metric chính}
 
 \section{Phân tích theo từng nhóm metric}
 
@@ -897,6 +989,8 @@ Copy-aware loss cải thiện Args Exact Match thêm 2.94 điểm phần trăm. 
 
 \manualindent%
 Về mặt báo cáo, kết quả này nên được trình bày như một thí nghiệm thất bại có giá trị. Nó chứng minh giả thuyết ``tăng trọng số token copy có thể cải thiện Args'' là đúng một phần. Nhưng vì tool calling gồm cả chọn tool và sinh arguments, tối ưu quá mạnh một phần mục tiêu có thể làm giảm cân bằng tổng thể. Vì vậy nhóm chọn mô hình Finetune HeadQK epoch 220 làm mô hình chính, còn copy-aware loss là hướng cải tiến cần nghiên cứu thêm.
+
+\placeholderfigure{Chèn biểu đồ tự vẽ so sánh loss gốc và copy-aware loss theo Valid JSON, Intent Accuracy, Args EM và F1.}{Kết quả ablation của copy-aware loss}
 
 \section{Ablation về định dạng ID}
 
@@ -965,7 +1059,7 @@ Về định tính, mô hình SpikeGPT fine-tune cho thấy ba điểm tích c�
 \manualindent%
 Điểm yếu định tính nằm ở các chuỗi cần giữ nguyên. Khi câu hỏi chứa mã hoặc địa chỉ dài, SpikeGPT có xu hướng sinh một giá trị gần giống nhưng không hoàn toàn trùng. Điều này khác với lỗi ngôn ngữ thông thường: trong hội thoại tự do, một câu gần đúng có thể chấp nhận được; trong tool calling, một mã đơn gần đúng vẫn là sai.
 
-\placeholderfigure{Chèn hình demo thành công: user request -> SpikeGPT sinh đúng JSON tool call.}{Ví dụ suy luận thành công của SpikeGPT}
+\placeholderfigure{Chèn hình demo tự dựng: user request -> SpikeGPT sinh đúng JSON tool call.}{Ví dụ suy luận thành công của SpikeGPT}
 
 \section{So sánh với bài báo gốc}
 
