@@ -80,7 +80,7 @@ print('loading data... ' + datafile_train)
 #     datafile_train, "r", encoding=datafile_encoding).read(), ctx_len, epoch_length_fixed)
 
 train_dataset = Dataset(MMapIndexedDataset(datafile_train), ctx_len, epoch_length_fixed) #use it when you use binidx files
-valid_dataset =  Dataset(MMapIndexedDataset(datafile_train), ctx_len, epoch_length_fixed)
+valid_dataset =  Dataset(MMapIndexedDataset(datafile_valid), ctx_len, epoch_length_fixed)
 # valid_dataset = Dataset(open(
 #     datafile_valid, "r", encoding=datafile_encoding).read(), ctx_len, epoch_length_fixed) 
 
