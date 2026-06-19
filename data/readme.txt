@@ -1,0 +1,3 @@
+- Agent_data_LLM.json là 2000 mẫu dữ liệu hội thoại one turn được tạo ra bằng Gemini + ChatGPT sau đó được validate lại giữ lại mẫu đạt chuẩn
+- train/valid_tool_data.jsonl lần lượt là 56k/7k6 mẫu sử dụng phương pháp Data Augmentation dựa trên 2000 mẫu dữ liệu gốc để tạo thành
+- test_ood_data là 5k mẫu dữ liệu dùng để đem đi Evaluate mô hình sau khi đã train xong.
